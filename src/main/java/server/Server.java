@@ -12,7 +12,7 @@ public class Server extends Thread
         ServerSocket serverSocket = null;
 
         try {
-            serverSocket = new ServerSocket(22000);
+            serverSocket = new ServerSocket(24800);
             System.out.println ("Connection Socket Created");
             try {
                 while (true)

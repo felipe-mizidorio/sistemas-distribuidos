@@ -5,19 +5,20 @@ import java.net.*;
 public class Client {
     public static void main(String[] args) throws IOException {
 
-        String serverHostname = new String ("127.0.0.1");
+        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print("IP: ");
+        String IPServer = read.readLine();
+        System.out.print("Port: ");
+        int port = Integer.parseInt(read.readLine());
 
-        if (args.length > 0)
-            serverHostname = args[0];
-        System.out.println ("Attemping to connect to host " +
-                serverHostname + " on port 10008.");
+        String serverHostname = "localHost";
 
         Socket echoSocket = null;
         PrintWriter out = null;
         BufferedReader in = null;
 
         try {
-            echoSocket = new Socket(serverHostname, 10008);
+            echoSocket = new Socket(serverHostname, port);
             out = new PrintWriter(echoSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(
                     echoSocket.getInputStream()));
