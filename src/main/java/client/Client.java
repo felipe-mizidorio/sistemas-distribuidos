@@ -5,11 +5,11 @@ import java.net.*;
 public class Client {
     public static void main(String[] args) throws IOException {
 
-        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
         System.out.print("IP: ");
-        String IPServer = read.readLine();
+        String IPServer = stdIn.readLine();
         System.out.print("Port: ");
-        int port = Integer.parseInt(read.readLine());
+        int port = Integer.parseInt(stdIn.readLine());
 
         String serverHostname = "localHost";
 
@@ -31,8 +31,6 @@ public class Client {
             System.exit(1);
         }
 
-        BufferedReader stdIn = new BufferedReader(
-                new InputStreamReader(System.in));
         String userInput;
 
         System.out.println ("Type Message (\"Bye.\" to quit)");
