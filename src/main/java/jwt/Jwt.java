@@ -8,12 +8,12 @@ import com.auth0.jwt.interfaces.JWTVerifier;
 import com.auth0.jwt.interfaces.Claim;
 
 public class Jwt {
-    public static String createJWT(boolean isAdmin, int userID) {
+    public static String createJWT(boolean isAdmin, int userId) {
         Algorithm algorithm = Algorithm.HMAC256("64");
         return JWT.create()
                 .withIssuer("auth0")
                 .withClaim("isAdmin", isAdmin)
-                .withClaim("userID", userID)
+                .withClaim("userId", userId)
                 .sign(algorithm);
     }
 
