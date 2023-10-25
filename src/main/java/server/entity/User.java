@@ -1,40 +1,46 @@
 package server.entity;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import org.hibernate.annotations.NaturalId;
 import server.datatransferobject.CreateUser;
 import server.datatransferobject.UpdateUser;
 
+@Entity
+@Table(name = "Users")
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
-public class UserEntity {
+public class User {
     @NotNull
-    private Integer id;
-    @NotBlank
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @NotNull
     @Size(min = 3, max = 255)
     private String nome;
-    @NotBlank
+
+    @NotNull
     @Email
+    @NaturalId(mutable = true)
     private String email;
 
-    @NotBlank
+    @NotNull
     private String senha;
+
     @NotNull
     private Boolean isAdmin;
 
-    public UserEntity() {
+    public User() {
     }
 
-    public static UserEntity of(CreateUser user) {
-        var entity = new UserEntity();
+    public static User of(CreateUser user) {
+        var entity = new User();
         entity.setNome(user.getNome());
         entity.setEmail(user.getEmail());
         entity.setSenha(user.getSenha());
@@ -42,8 +48,8 @@ public class UserEntity {
         return entity;
     }
 
-    public static UserEntity of(UpdateUser user) {
-        var entity = new UserEntity();
+    public static User of(UpdateUser user) {
+        var entity = new User();
         entity.setNome(user.getNome());
         entity.setEmail(user.getEmail());
         entity.setSenha(user.getSenha());
@@ -51,7 +57,7 @@ public class UserEntity {
         return entity;
     }
 
-    public void update(UserEntity info) {
+    public void update(User info) {
         if (info.getEmail() != null) {
             setEmail(info.getEmail());
         }
