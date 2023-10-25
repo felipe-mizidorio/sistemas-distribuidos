@@ -3,7 +3,7 @@ package client;
 import com.google.gson.JsonSyntaxException;
 import json.Json;
 import json.validation.ConstraintViolated;
-import json.validation.ValidationHelper;
+import json.validation.ValidateJson;
 import protocol.Optional;
 import protocol.request.*;
 import protocol.request.header.Header;
@@ -19,30 +19,32 @@ import java.lang.reflect.Parameter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-
 public class Client {
-    public static void main(String[] args) {
-        String serverHost = "localhost";
-        int port = 24801;
+    public static void main(String[] args) throws IOException {
+        BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print("IP: ");
+        String IPServer = stdIn.readLine();
+        System.out.print("Port: ");
+        int port = Integer.parseInt(stdIn.readLine());
 
-        try (Socket echoSocket = new Socket(serverHost, port);
+        try (Socket echoSocket = new Socket(IPServer, port);
              PrintWriter out = new PrintWriter(echoSocket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(
                      echoSocket.getInputStream()));
              BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in))
         ) {
-            repl(out, in, stdin);
+            communicateWithServer(out, in, stdin);
         } catch (UnknownHostException e) {
-            System.err.println("Don't know about host: " + serverHost);
+            System.err.println("Don't know about host: " + IPServer);
             System.exit(1);
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for "
-                    + "the connection to: " + serverHost);
+                    + "the connection to: " + IPServer);
             System.exit(1);
         }
     }
 
-    private static void repl(PrintWriter out, BufferedReader in, BufferedReader stdin) {
+    private static void communicateWithServer(PrintWriter out, BufferedReader in, BufferedReader stdin) {
         String token = null;
         try {
             while (true) {
@@ -78,19 +80,16 @@ public class Client {
                 }
 
                 System.out.println();
-
             }
         } catch (IOException e) {
-            System.out.println("ERRO: nao foi possivel ler o stdIn");
+            System.out.println("ERRO: não foi possível ler o stdIn");
         }
     }
 
     private static Request<?> requestFactory(BufferedReader stdin, String token) throws IOException {
-
-        String operation;
         while (true) {
             System.out.print("Insira a operação: ");
-            operation = stdin.readLine();
+            String operation = stdin.readLine();
             if (operation == null) {
                 throw new IOException();
             }
@@ -108,50 +107,16 @@ public class Client {
                     return makeRequest(stdin, token, AdminCreateUserRequest.class);
                 case RequestOperations.ADMIN_ATUALIZAR_USUARIO:
                     return makeRequest(stdin, token, AdminUpdateUserRequest.class);
+                case RequestOperations.CADASTRAR_USUARIO:
+                    return makeRequest(stdin, token, CreateUserRequest.class);
+                default:
+                    System.out.println("Operação inválida. Tente novamente.");
             }
         }
     }
 
-    private static Response<?> handleResponse(String json, Request<?> request) {
-        Response<?> response = null;
-        try {
-            Class<?> clazz = request.getClass();
-            if (clazz == LoginRequest.class) {
-                response = Json.fromJson(json, LoginResponse.class);
-            }
-            if (clazz == LogoutRequest.class) {
-                response = Json.fromJson(json, LogoutResponse.class);
-            }
-            if (clazz == AdminFindUsersRequest.class) {
-                response = Json.fromJson(json, FindUsersResponse.class);
-            }
-            if (clazz == AdminFindUserRequest.class) {
-                response = Json.fromJson(json, FindUserResponse.class);
-            }
-            if (clazz == AdminCreateUserRequest.class) {
-                response = Json.fromJson(json, AdminCreateUserResponse.class);
-            }
-            if (clazz == AdminUpdateUserRequest.class) {
-                response = Json.fromJson(json, AdminUpdateUserResponse.class);
-            }
-
-            if (response == null || response.payload() == null) {
-                response = Json.fromJson(json, ErrorResponse.class);
-            }
-            ValidationHelper.validate(response);
-            return response;
-        } catch (ConstraintViolated e) {
-            System.err.println("ERRO: Resposta invalida.\n" + e.getMessage());
-            return response;
-        } catch (JsonSyntaxException e) {
-            System.err.println("ERRO: JSON invalido.");
-        }
-        return null;
-    }
-
-
-    private static <T> T makeRequest(BufferedReader stdin, String token, Class<T> clazz) throws IOException {
-        for (Constructor<?> constructor : clazz.getConstructors()) {
+    private static <T> T makeRequest(BufferedReader stdin, String token, Class<T> requestClass) throws IOException {
+        for (Constructor<?> constructor : requestClass.getConstructors()) {
             Parameter[] parameters = constructor.getParameters();
             boolean shouldSkip = false;
 
@@ -197,8 +162,33 @@ public class Client {
                 throw new RuntimeException(e);
             }
         }
+        throw new RuntimeException("ERRO: Não foi possível criar a instância: " + requestClass.getName());
+    }
 
-        throw new RuntimeException("ERRO: Nao foi possivel criar a instancia: " + clazz.getName());
+    private static Response<?> handleResponse(String json, Request<?> request) {
+        Response<?> response = null;
+        try {
+            Class<?> requestClass = request.getClass();
+            response = switch (requestClass.getSimpleName()) {
+                case "LoginRequest" -> Json.fromJson(json, LoginResponse.class);
+                case "LogoutRequest" -> Json.fromJson(json, LogoutResponse.class);
+                case "CreateUserRequest" -> Json.fromJson(json, CreateUserResponse.class);
+                case "AdminFindUsersRequest" -> Json.fromJson(json, FindUsersResponse.class);
+                case "AdminFindUserRequest" -> Json.fromJson(json, FindUserResponse.class);
+                case "AdminCreateUserRequest" -> Json.fromJson(json, AdminCreateUserResponse.class);
+                case "AdminUpdateUserRequest" -> Json.fromJson(json, AdminUpdateUserResponse.class);
+                case "AdminDeleteUserRequest" -> Json.fromJson(json, AdminDeleteUserResponse.class);
+                default -> Json.fromJson(json, ErrorResponse.class);
+            };
+            ValidateJson.validate(response);
+            return response;
+        } catch (ConstraintViolated e) {
+            System.err.println("Não foi possível validar a resposta\n" + e.getMessage());
+            return response;
+        } catch (JsonSyntaxException e) {
+            System.err.println("Erro no json recebido");
+        }
+        return null;
     }
 }
 
