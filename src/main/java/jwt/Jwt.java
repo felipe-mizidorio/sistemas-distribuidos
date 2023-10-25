@@ -8,7 +8,7 @@ import com.auth0.jwt.interfaces.JWTVerifier;
 import com.auth0.jwt.interfaces.Claim;
 
 public class Jwt {
-    public static String createJWT(boolean isAdmin, int userId) {
+    public static String createJWT(boolean isAdmin, long userId) {
         Algorithm algorithm = Algorithm.HMAC256("64");
         return JWT.create()
                 .withIssuer("auth0")
@@ -23,7 +23,7 @@ public class Jwt {
         return verifier.verify(token);
     }
 
-    public static int getId(String token) throws JWTVerificationException {
+    public static long getId(String token) throws JWTVerificationException {
         DecodedJWT jwt = JWT.decode(token);
         Claim id = jwt.getClaim("userId");
         return id.asInt();
