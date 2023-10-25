@@ -1,6 +1,5 @@
 package protocol.request;
 
-import lombok.Builder;
 import protocol.request.header.Header;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -18,6 +17,13 @@ public class AdminFindUserRequest extends Request<AdminFindUserRequest.Payload> 
         payload = new Payload(registro);
     }
 
+    @Override
+    public String toString() {
+        return "AdminFindUserRequest{" +
+                "payload=" + payload +
+                '}';
+    }
+
     @Getter
     public static class Payload {
         @Positive
@@ -25,6 +31,12 @@ public class AdminFindUserRequest extends Request<AdminFindUserRequest.Payload> 
 
         public Payload(long registro) {
             this.registro = registro;
+        }
+
+        @Override
+        public String toString() {
+            return "{ registro=" + registro +
+                    '}';
         }
     }
 }

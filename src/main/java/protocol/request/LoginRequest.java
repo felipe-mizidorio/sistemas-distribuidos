@@ -2,7 +2,6 @@ package protocol.request;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
 import protocol.request.header.Header;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -14,9 +13,16 @@ public class LoginRequest extends Request<LoginRequest.Payload> {
     @Valid
     private final Payload payload;
 
-    public LoginRequest(final String email, final String password) {
+    public LoginRequest(final String email, final String senha) {
         super(new Header(RequestOperations.LOGIN, null));
-        this.payload = new Payload(email, password);
+        this.payload = new Payload(email, senha);
+    }
+
+    @Override
+    public String toString() {
+        return "LoginRequest{" +
+                "payload=" + payload +
+                '}';
     }
 
     @Getter
@@ -26,11 +32,18 @@ public class LoginRequest extends Request<LoginRequest.Payload> {
         private final String email;
 
         @NotBlank(message = "campo senha não pode estar vazio.")
-        private final String password;
+        private final String senha;
 
-        public Payload(String email, String password) {
+        public Payload(String email, String senha) {
             this.email = email;
-            this.password = password;
+            this.senha = senha;
+        }
+
+        @Override
+        public String toString() {
+            return "{ email='" + email + '\'' +
+                    ", password='" + senha + '\'' +
+                    '}';
         }
     }
 }

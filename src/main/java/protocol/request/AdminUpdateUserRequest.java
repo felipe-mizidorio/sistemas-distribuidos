@@ -1,7 +1,6 @@
 package protocol.request;
 
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
 import protocol.Optional;
 import protocol.request.header.Header;
 import jakarta.validation.constraints.Email;
@@ -17,6 +16,13 @@ public class AdminUpdateUserRequest extends Request<AdminUpdateUserRequest.Paylo
                                   @Optional Boolean tipo) {
         super(new Header(RequestOperations.ADMIN_ATUALIZAR_USUARIO, token));
         payload = new Payload(registro, email, nome, senha, tipo);
+    }
+
+    @Override
+    public String toString() {
+        return "AdminUpdateUserRequest{" +
+                "payload=" + payload +
+                '}';
     }
 
     @Getter
@@ -42,5 +48,14 @@ public class AdminUpdateUserRequest extends Request<AdminUpdateUserRequest.Paylo
             this.tipo = tipo;
         }
 
+        @Override
+        public String toString() {
+            return "{ registro=" + registro +
+                    ", email='" + email + '\'' +
+                    ", nome='" + nome + '\'' +
+                    ", senha='" + senha + '\'' +
+                    ", tipo=" + tipo +
+                    '}';
+        }
     }
 }

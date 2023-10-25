@@ -1,7 +1,7 @@
 package protocol.response;
 
 import server.datatransferobject.UserDTO;
-import server.entity.UserEntity;
+import server.entity.User;
 
 public class AdminCreateUserResponse implements Response<UserDTO> {
     private final UserDTO payload;
@@ -10,12 +10,15 @@ public class AdminCreateUserResponse implements Response<UserDTO> {
         this.payload = payload;
     }
 
-    public static AdminCreateUserResponse of(UserEntity user) {
-        return new AdminCreateUserResponse(UserDTO.of(user));
-    }
-
     @Override
     public UserDTO payload() {
         return payload;
+    }
+
+    @Override
+    public String toString() {
+        return "AdminCreateUserResponse{" +
+                "payload=" + payload +
+                '}';
     }
 }

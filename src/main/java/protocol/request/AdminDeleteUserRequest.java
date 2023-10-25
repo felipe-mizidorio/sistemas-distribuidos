@@ -1,6 +1,5 @@
 package protocol.request;
 
-import lombok.Builder;
 import protocol.request.header.Header;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -18,6 +17,13 @@ public class AdminDeleteUserRequest extends Request<AdminDeleteUserRequest.Paylo
         payload = new Payload(registro);
     }
 
+    @Override
+    public String toString() {
+        return "AdminDeleteUserRequest{" +
+                "payload=" + payload +
+                '}';
+    }
+
     @Getter
     public static class Payload {
         @Positive
@@ -25,6 +31,12 @@ public class AdminDeleteUserRequest extends Request<AdminDeleteUserRequest.Paylo
 
         public Payload(long registro) {
             this.registro = registro;
+        }
+
+        @Override
+        public String toString() {
+            return "{ registro=" + registro +
+                    '}';
         }
     }
 }

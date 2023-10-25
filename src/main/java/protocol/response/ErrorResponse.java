@@ -24,6 +24,13 @@ public class ErrorResponse implements Response<ErrorResponse.Payload> {
         return error;
     }
 
+    @Override
+    public String toString() {
+        return "ErrorResponse{" +
+                "error=" + error +
+                '}';
+    }
+
     @Getter
     public static class Payload {
         @Positive
@@ -35,6 +42,13 @@ public class ErrorResponse implements Response<ErrorResponse.Payload> {
         public Payload(int code, String message) {
             this.code = code;
             this.message = message;
+        }
+
+        @Override
+        public String toString() {
+            return "{ code=" + code +
+                    ", message='" + message + '\'' +
+                    '}';
         }
     }
 }

@@ -17,4 +17,11 @@ public class AdminDeleteUserResponse implements Response<EmptyPayload> {
     public EmptyPayload payload() {
         return payload;
     }
+
+    @Override
+    public String toString() {
+        return "AdminDeleteUserResponse{" +
+                "payload=" + payload +
+                '}';
+    }
 }

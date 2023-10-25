@@ -22,12 +22,25 @@ public class LogoutResponse implements Response<LogoutResponse.Payload> {
         return payload;
     }
 
+    @Override
+    public String toString() {
+        return "LogoutResponse{" +
+                "payload=" + payload +
+                '}';
+    }
+
     @Getter
     public static class Payload {
         private final String mensagem;
 
         public Payload(String mensagem) {
             this.mensagem = mensagem;
+        }
+
+        @Override
+        public String toString() {
+            return "{ mensagem='" + mensagem + '\'' +
+                    '}';
         }
     }
 }

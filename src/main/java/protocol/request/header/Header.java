@@ -2,7 +2,6 @@ package protocol.request.header;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import lombok.Getter;
 
 public record Header(
         @NotBlank(message = "operation não pode estar vazio") String operation,

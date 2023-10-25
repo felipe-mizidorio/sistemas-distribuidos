@@ -13,4 +13,11 @@ public class FindUserResponse implements Response<UserDTO> {
     public UserDTO payload() {
         return payload;
     }
+
+    @Override
+    public String toString() {
+        return "FindUserResponse{" +
+                "payload=" + payload +
+                '}';
+    }
 }

@@ -21,12 +21,25 @@ public class FindUsersResponse implements Response<FindUsersResponse.Payload> {
         return payload;
     }
 
+    @Override
+    public String toString() {
+        return "FindUsersResponse{" +
+                "payload=" + payload +
+                '}';
+    }
+
     @Getter
     public static class Payload {
         private final List<UserDTO> users;
 
         public Payload(List<UserDTO> users) {
             this.users = users;
+        }
+
+        @Override
+        public String toString() {
+            return "{ users=" + users +
+                    '}';
         }
     }
 }

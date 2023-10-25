@@ -1,7 +1,6 @@
 package protocol.request;
 
 import jakarta.validation.constraints.*;
-import lombok.Builder;
 import protocol.request.header.Header;
 import jakarta.validation.Valid;
 import lombok.Getter;
@@ -16,6 +15,13 @@ public class AdminCreateUserRequest extends Request<AdminCreateUserRequest.Paylo
                                   final String senha, final Boolean tipo) {
         super(new Header(RequestOperations.ADMIN_CADASTRAR_USUARIO, token));
         payload = new Payload(nome, email, senha, tipo);
+    }
+
+    @Override
+    public String toString() {
+        return "AdminCreateUserRequest{" +
+                "payload=" + payload +
+                '}';
     }
 
     @Getter
@@ -41,5 +47,13 @@ public class AdminCreateUserRequest extends Request<AdminCreateUserRequest.Paylo
             this.tipo = tipo;
         }
 
+        @Override
+        public String toString() {
+            return "{ nome='" + nome + '\'' +
+                    ", email='" + email + '\'' +
+                    ", senha='" + senha + '\'' +
+                    ", tipo=" + tipo +
+                    '}';
+        }
     }
 }

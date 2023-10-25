@@ -19,6 +19,13 @@ public class LoginResponse implements Response<LoginResponse.Payload> {
         return payload;
     }
 
+    @Override
+    public String toString() {
+        return "LoginResponse{" +
+                "payload=" + payload +
+                '}';
+    }
+
     @Getter
     public static class Payload {
         @NotBlank
@@ -26,6 +33,12 @@ public class LoginResponse implements Response<LoginResponse.Payload> {
 
         public Payload(String token) {
             this.token = token;
+        }
+
+        @Override
+        public String toString() {
+            return "{ token='" + token + '\'' +
+                    '}';
         }
     }
 }
