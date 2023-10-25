@@ -1,16 +1,16 @@
-package server.procedure;
+package server.processes;
 
 import protocol.request.AdminCreateUserRequest;
 import protocol.response.AdminCreateUserResponse;
 import protocol.response.Response;
 import server.datatransferobject.CreateUser;
 import server.exceptions.ServerResponseException;
-import server.management.UserManager;
+import server.controller.UserController;
 import jwt.validation.ValidateAdmin;
 import jwt.validation.ValidateToken;
 
-public class AdminCreateUserProcedure extends ProcedureTemplate {
-    public Response<?> doProcedure(String json) throws ServerResponseException {
+public class AdminCreateUserProcess extends ProcessTemplate {
+    public Response<?> execute(String json) throws ServerResponseException {
         var adminCreateUserRequestReceived = buildRequest(json, AdminCreateUserRequest.class);
         var token = adminCreateUserRequestReceived.getHeader().token();
         ValidateToken.validate(token);
@@ -22,7 +22,7 @@ public class AdminCreateUserProcedure extends ProcedureTemplate {
                 .senha(payload.getSenha())
                 .email(payload.getEmail())
                 .build();
-        var createdUser = UserManager.getInstance().createUser(user);
+        var createdUser = UserController.getInstance().createUser(user);
         return new AdminCreateUserResponse(createdUser);
     }
 }

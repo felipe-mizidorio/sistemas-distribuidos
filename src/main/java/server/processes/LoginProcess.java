@@ -1,15 +1,15 @@
-package server.procedure;
+package server.processes;
 
 import protocol.request.LoginRequest;
 import protocol.response.LoginResponse;
 import protocol.response.Response;
 import server.exceptions.ServerResponseException;
-import server.management.UserManager;
+import server.controller.UserController;
 
-public class LoginProcedure extends ProcedureTemplate{
-    public Response<?> doProcedure(String json) throws ServerResponseException {
+public class LoginProcess extends ProcessTemplate {
+    public Response<?> execute(String json) throws ServerResponseException {
         var loginRequestReceived = buildRequest(json, LoginRequest.class);
-        String userToken = UserManager.getInstance().login(loginRequestReceived.getPayload());
+        String userToken = UserController.getInstance().login(loginRequestReceived.getPayload());
         return new LoginResponse(userToken);
     }
 }

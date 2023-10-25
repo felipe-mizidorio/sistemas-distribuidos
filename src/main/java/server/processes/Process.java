@@ -1,10 +1,10 @@
-package server.procedure;
+package server.processes;
 
 import protocol.response.Response;
 import server.exceptions.ServerResponseException;
 
-public interface Procedure {
+public interface Process {
     <T> T buildRequest(String json, Class<T> className) throws ServerResponseException;
 
-    Response<?> doProcedure(String json) throws ServerResponseException;
+    Response<?> execute(String json) throws ServerResponseException;
 }

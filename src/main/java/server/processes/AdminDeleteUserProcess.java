@@ -1,4 +1,4 @@
-package server.procedure;
+package server.processes;
 
 import jwt.Jwt;
 import protocol.request.AdminFindUserRequest;
@@ -6,13 +6,13 @@ import protocol.response.AdminDeleteUserResponse;
 import protocol.response.Response;
 import server.datatransferobject.DeleteUser;
 import server.exceptions.ServerResponseException;
-import server.management.UserManager;
+import server.controller.UserController;
 import jwt.validation.ValidateAdmin;
 import jwt.validation.ValidateToken;
 
-public class AdminDeleteUserProcedure extends ProcedureTemplate {
+public class AdminDeleteUserProcess extends ProcessTemplate {
 
-    public Response<?> doProcedure(String json) throws ServerResponseException {
+    public Response<?> execute(String json) throws ServerResponseException {
         var adminDeleteUserRequestReceived = buildRequest(json, AdminFindUserRequest.class);
         var token = adminDeleteUserRequestReceived.getHeader().token();
         ValidateToken.validate(token);
@@ -25,7 +25,7 @@ public class AdminDeleteUserProcedure extends ProcedureTemplate {
                 .registroToDelete(payload.getRegistro())
                 .isSenderAdmin(isAdmin)
                 .build();
-        UserManager.getInstance().deleteUser(user);
+        UserController.getInstance().deleteUser(user);
         return new AdminDeleteUserResponse();
     }
 }
