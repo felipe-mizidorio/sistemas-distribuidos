@@ -1,9 +1,8 @@
 package server.datatransferobject;
 
 import jakarta.validation.constraints.*;
-import lombok.Builder;
 import lombok.Getter;
-import server.entity.UserEntity;
+import server.entity.User;
 
 @Getter
 public class UserDTO {
@@ -19,19 +18,29 @@ public class UserDTO {
     private final Boolean isAdmin;
 
     @Positive
-    private final int id;
+    private final long id;
 
-    public UserDTO(String nome, String email, Boolean isAdmin, int id) {
+    public UserDTO(String nome, String email, Boolean isAdmin, long id) {
         this.nome = nome;
         this.email = email;
         this.isAdmin = isAdmin;
         this.id = id;
     }
 
-    public static UserDTO of(UserEntity userEntity) {
-        if (userEntity == null) {
+    public static UserDTO of(User user) {
+        if (user == null) {
             return null;
         }
-        return new UserDTO(userEntity.getNome(), userEntity.getEmail(), userEntity.getIsAdmin(), userEntity.getId());
+        return new UserDTO(user.getNome(), user.getEmail(), user.getIsAdmin(), user.getId());
+    }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                ", isAdmin=" + isAdmin +
+                ", id=" + id +
+                '}';
     }
 }
