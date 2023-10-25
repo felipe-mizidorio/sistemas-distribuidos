@@ -18,7 +18,7 @@ public class AdminFindUsersProcedure extends ProcedureTemplate {
         ValidateToken.validate(token);
         ValidateAdmin.validate(token);
         UserManager controller = UserManager.getInstance();
-        List<UserDTO> users = controller.findUsers().toList();
+        List<UserDTO> users = controller.findUsers();
         return new FindUsersResponse(users);
     }
 }
