@@ -4,8 +4,10 @@ import json.Json;
 import protocol.request.RequestOperations;
 import protocol.response.LogoutResponse;
 import protocol.response.Response;
+import server.datatransferobject.CreateUser;
 import server.exceptions.ServerResponseException;
-import server.procedure.*;
+import server.controller.UserController;
+import server.processes.*;
 import server.router.Router;
 
 import java.net.*;
@@ -19,22 +21,31 @@ public class Server extends Thread {
         clientSocket = clientSoc;
         if (routes == null) {
             routes = Router.builder()
-                    .addRoute(RequestOperations.LOGIN, new LoginProcedure())
-                    .addRoute(RequestOperations.LOGOUT, new LogoutProcedure())
-                    .addRoute(RequestOperations.ADMIN_BUSCAR_USUARIOS, new AdminFindUsersProcedure())
-                    .addRoute(RequestOperations.ADMIN_BUSCAR_USUARIO, new AdminFindUserProcedure())
-                    .addRoute(RequestOperations.ADMIN_CADASTRAR_USUARIO, new AdminCreateUserProcedure())
-                    .addRoute(RequestOperations.ADMIN_ATUALIZAR_USUARIO, new AdminUpdateUserProcedure())
-                    .addRoute(RequestOperations.ADMIN_DELETAR_USUARIO, new AdminDeleteUserProcedure())
+                    .addRoute(RequestOperations.LOGIN, new LoginProcess())
+                    .addRoute(RequestOperations.LOGOUT, new LogoutProcess())
+                    .addRoute(RequestOperations.ADMIN_BUSCAR_USUARIOS, new AdminFindUsersProcess())
+                    .addRoute(RequestOperations.ADMIN_BUSCAR_USUARIO, new AdminFindUserProcess())
+                    .addRoute(RequestOperations.ADMIN_CADASTRAR_USUARIO, new AdminCreateUserProcess())
+                    .addRoute(RequestOperations.ADMIN_ATUALIZAR_USUARIO, new AdminUpdateUserProcess())
+                    .addRoute(RequestOperations.ADMIN_DELETAR_USUARIO, new AdminDeleteUserProcess())
+                    .addRoute(RequestOperations.CADASTRAR_USUARIO, new CreateUserProcess())
                     .build();
         }
         start();
     }
 
-    public static void main(String[] args) throws IOException
-    {
+    public static void main(String[] args) throws IOException, ServerResponseException {
+        UserController.getInstance()
+                .createUser(new CreateUser("felipe@email.com", "123456", "Felipe", true));
+
+        UserController.getInstance()
+                .createUser(new CreateUser("nome@email.com", "123456", "Nome", false));
+
+        BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print("Port: ");
+        final int port = Integer.parseInt(stdIn.readLine());
+
         InetAddress ipAddress = InetAddress.getByName("0.0.0.0");
-        final int port = 24801;
         try(ServerSocket serverSocket = new ServerSocket(port, 0, ipAddress)) {
             System.out.println("Connection Socket Created");
             while (true) {
@@ -63,17 +74,17 @@ public class Server extends Thread {
             while ((inputLine = in.readLine()) != null) {
                 System.out.println("Request Recebido: " + inputLine);
                 Response<?> response;
-
                 try {
                     response = routes.serve(inputLine);
                 } catch (ServerResponseException e) {
                     response = e.intoResponse();
                 }
-
                 String jsonResponse = Json.toJson(response);
                 System.out.println("Response Enviado: " + jsonResponse);
                 out.println(jsonResponse);
-
+                if(!clientSocket.isConnected() || clientSocket.isClosed()) {
+                    break;
+                }
                 if (response instanceof LogoutResponse)
                     break;
             }
@@ -81,7 +92,6 @@ public class Server extends Thread {
             System.err.println("Problem with Communication Server");
             System.exit(1);
         }
-
         assert (clientSocket.isClosed());
     }
 }
