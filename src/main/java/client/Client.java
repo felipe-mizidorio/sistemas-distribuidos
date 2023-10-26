@@ -154,7 +154,6 @@ public class Client {
                     constructorArguments[i] = line;
                 }
             }
-
             try {
 
                 return (T) constructor.newInstance(constructorArguments);
@@ -169,17 +168,33 @@ public class Client {
         Response<?> response = null;
         try {
             Class<?> requestClass = request.getClass();
-            response = switch (requestClass.getSimpleName()) {
-                case "LoginRequest" -> Json.fromJson(json, LoginResponse.class);
-                case "LogoutRequest" -> Json.fromJson(json, LogoutResponse.class);
-                case "CreateUserRequest" -> Json.fromJson(json, CreateUserResponse.class);
-                case "AdminFindUsersRequest" -> Json.fromJson(json, FindUsersResponse.class);
-                case "AdminFindUserRequest" -> Json.fromJson(json, FindUserResponse.class);
-                case "AdminCreateUserRequest" -> Json.fromJson(json, AdminCreateUserResponse.class);
-                case "AdminUpdateUserRequest" -> Json.fromJson(json, AdminUpdateUserResponse.class);
-                case "AdminDeleteUserRequest" -> Json.fromJson(json, AdminDeleteUserResponse.class);
-                default -> Json.fromJson(json, ErrorResponse.class);
-            };
+            if (requestClass == LoginRequest.class) {
+                response = Json.fromJson(json, LoginResponse.class);
+            }
+            if (requestClass == LogoutRequest.class) {
+                response = Json.fromJson(json, LogoutResponse.class);
+            }
+            if (requestClass == CreateUserRequest.class) {
+                response = Json.fromJson(json, CreateUserResponse.class);
+            }
+            if (requestClass == AdminFindUsersRequest.class) {
+                response = Json.fromJson(json, FindUsersResponse.class);
+            }
+            if (requestClass == AdminFindUserRequest.class) {
+                response = Json.fromJson(json, FindUserResponse.class);
+            }
+            if (requestClass == AdminCreateUserRequest.class) {
+                response = Json.fromJson(json, AdminCreateUserResponse.class);
+            }
+            if (requestClass == AdminUpdateUserRequest.class) {
+                response = Json.fromJson(json, AdminUpdateUserResponse.class);
+            }
+            if (requestClass == AdminDeleteUserRequest.class) {
+                response = Json.fromJson(json, AdminDeleteUserResponse.class);
+            }
+            if (response == null || response.payload() == null) {
+                response = Json.fromJson(json, ErrorResponse.class);
+            }
             ValidateJson.validate(response);
             return response;
         } catch (ConstraintViolated e) {
