@@ -38,7 +38,7 @@ public class UserController implements Controller {
     }
 
     public String getToken(User user) {
-        return Jwt.createJWT(user.getIsAdmin(), user.getId());
+        return Jwt.createJWT(user.getTipo(), user.getRegistro());
     }
 
     public List<UserDTO> findUsers() {

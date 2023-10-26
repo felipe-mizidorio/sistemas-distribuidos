@@ -19,7 +19,7 @@ public class User {
     @NotNull
     @Id
     @GeneratedValue
-    private Long id;
+    private Long registro;
 
     @NotNull
     @Size(min = 3, max = 255)
@@ -34,7 +34,7 @@ public class User {
     private String senha;
 
     @NotNull
-    private Boolean isAdmin;
+    private Boolean tipo;
 
     public User() {
     }
@@ -44,7 +44,7 @@ public class User {
         entity.setNome(user.getNome());
         entity.setEmail(user.getEmail());
         entity.setSenha(user.getSenha());
-        entity.setIsAdmin(user.getTipo());
+        entity.setTipo(user.getTipo());
         return entity;
     }
 
@@ -53,7 +53,7 @@ public class User {
         entity.setNome(user.getNome());
         entity.setEmail(user.getEmail());
         entity.setSenha(user.getSenha());
-        entity.setIsAdmin(user.getTipo());
+        entity.setTipo(user.getTipo());
         return entity;
     }
 
@@ -64,8 +64,8 @@ public class User {
         if (info.getSenha() != null) {
             setSenha(info.getSenha());
         }
-        if (info.getIsAdmin() != null) {
-            setIsAdmin(info.getIsAdmin());
+        if (info.getTipo() != null) {
+            setTipo(info.getTipo());
         }
         if (info.getNome() != null) {
             setNome(info.getNome());

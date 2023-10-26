@@ -15,23 +15,23 @@ public class UserDTO {
     private final String email;
 
     @NotNull
-    private final Boolean isAdmin;
+    private final Boolean tipo;
 
     @Positive
-    private final long id;
+    private final long registro;
 
-    public UserDTO(String nome, String email, Boolean isAdmin, long id) {
+    public UserDTO(String nome, String email, Boolean tipo, long registro) {
         this.nome = nome;
         this.email = email;
-        this.isAdmin = isAdmin;
-        this.id = id;
+        this.tipo = tipo;
+        this.registro = registro;
     }
 
     public static UserDTO of(User user) {
         if (user == null) {
             return null;
         }
-        return new UserDTO(user.getNome(), user.getEmail(), user.getIsAdmin(), user.getId());
+        return new UserDTO(user.getNome(), user.getEmail(), user.getTipo(), user.getRegistro());
     }
 
     @Override
@@ -39,8 +39,8 @@ public class UserDTO {
         return "UserDTO{" +
                 "nome='" + nome + '\'' +
                 ", email='" + email + '\'' +
-                ", isAdmin=" + isAdmin +
-                ", id=" + id +
+                ", isAdmin=" + tipo +
+                ", id=" + registro +
                 '}';
     }
 }

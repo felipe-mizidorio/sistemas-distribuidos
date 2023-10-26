@@ -56,7 +56,7 @@ public class UserRepository implements Repository{
             var userWithEmail = session.bySimpleNaturalId(User.class)
                     .loadOptional(instance.getEmail());
 
-            if (userWithEmail.isPresent() && !Objects.equals(userWithEmail.get().getId(), instance.getId())) {
+            if (userWithEmail.isPresent() && !Objects.equals(userWithEmail.get().getRegistro(), instance.getRegistro())) {
                 throw new BadRequestException("Usuário com email " + userWithEmail.get().getEmail() + " já existe.");
             }
 
@@ -94,7 +94,7 @@ public class UserRepository implements Repository{
         sessionFactory.inTransaction(session -> {
             User user = session.find(User.class, id);
             session.createMutationQuery("delete from User where id = :id")
-                    .setParameter("id", user.getId())
+                    .setParameter("id", user.getRegistro())
                     .executeUpdate();
         });
     }
