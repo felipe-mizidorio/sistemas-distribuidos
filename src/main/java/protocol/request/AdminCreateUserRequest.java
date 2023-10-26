@@ -12,9 +12,9 @@ public class AdminCreateUserRequest extends Request<AdminCreateUserRequest.Paylo
     private final Payload payload;
 
     public AdminCreateUserRequest(final String token, final String nome, final String email,
-                                  final String senha, final Boolean tipo) {
+                                  final String senha) {
         super(new Header(RequestOperations.ADMIN_CADASTRAR_USUARIO, token));
-        payload = new Payload(nome, email, senha, tipo);
+        payload = new Payload(nome, email, senha, true);
     }
 
     @Override
