@@ -17,7 +17,7 @@ public class AdminCreateUserProcess extends ProcessTemplate {
         ValidateAdmin.validate(token);
         var payload = adminCreateUserRequestReceived.getPayload();
         var user = CreateUser.builder()
-                .tipo(payload.getTipo())
+                .tipo(true)
                 .nome(payload.getNome())
                 .senha(payload.getSenha())
                 .email(payload.getEmail())
