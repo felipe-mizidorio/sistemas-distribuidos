@@ -72,7 +72,7 @@ public class Server extends Thread {
         ) {
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
-                System.out.println("Request Recebido: " + inputLine);
+                System.out.println(clientSocket.getInetAddress() + " - Request Recebido: " + inputLine);
                 Response<?> response;
                 try {
                     response = routes.serve(inputLine);
@@ -80,7 +80,7 @@ public class Server extends Thread {
                     response = e.intoResponse();
                 }
                 String jsonResponse = Json.toJson(response);
-                System.out.println("Response Enviado: " + jsonResponse);
+                System.out.println(clientSocket.getInetAddress() + " - Response Enviado: " + jsonResponse);
                 out.println(jsonResponse);
                 if(!clientSocket.isConnected() || clientSocket.isClosed()) {
                     break;
@@ -90,7 +90,7 @@ public class Server extends Thread {
             }
         } catch (IOException e) {
             System.err.println("Problem with Communication Server");
-            System.exit(1);
+            //System.exit(1);
         }
         assert (clientSocket.isClosed());
     }
