@@ -6,8 +6,8 @@ import protocol.response.ErrorResponse;
 public abstract class ServerResponseException extends Exception implements IntoResponse {
     private final int errorCode;
 
-    public ServerResponseException(int errorCode, @NotNull final String message) {
-        super(message);
+    public ServerResponseException(int errorCode, @NotNull final String messagem) {
+        super(messagem);
         this.errorCode = errorCode;
     }
 

@@ -10,7 +10,7 @@ public class LogoutResponse implements Response<LogoutResponse.Payload> {
     private final Payload payload;
 
     public LogoutResponse() {
-        this.payload = new Payload("Usuario desconectado.");
+        this.payload = new Payload("desconectado");
     }
 
     public LogoutResponse(Payload payload) {
