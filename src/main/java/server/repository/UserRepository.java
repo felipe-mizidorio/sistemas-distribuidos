@@ -45,12 +45,12 @@ public class UserRepository implements Repository{
         }
     }
 
-    public User update(Long id, User instance) throws ServerResponseException {
+    public User update(Long registro, User instance) throws ServerResponseException {
         try (Session session = sessionFactory.openSession()) {
 
             User user = session.byId(User.class)
-                    .loadOptional(id)
-                    .orElseThrow(() -> new ResourceNotFoundException("Usuário com id: " + id + " não existe."));
+                    .loadOptional(registro)
+                    .orElseThrow(() -> new ResourceNotFoundException("Usuário com registro: " + registro + " não existe."));
 
 
             var userWithEmail = session.bySimpleNaturalId(User.class)
@@ -77,9 +77,9 @@ public class UserRepository implements Repository{
         }
     }
 
-    public Optional<User> find(Long id) {
+    public Optional<User> find(Long registro) {
         try(Session session = sessionFactory.openSession()) {
-            var user = session.find(User.class, id);
+            var user = session.find(User.class, registro);
             return Optional.ofNullable(user);
         }
     }
@@ -90,26 +90,33 @@ public class UserRepository implements Repository{
         }
     }
 
-    public void deleteById(Long id) {
+    public void deleteByRegistro(Long registro) {
         sessionFactory.inTransaction(session -> {
-            User user = session.find(User.class, id);
-            session.createMutationQuery("delete from User where id = :id")
-                    .setParameter("id", user.getRegistro())
+            User user = session.find(User.class, registro);
+            session.createMutationQuery("delete from User where registro = :registro")
+                    .setParameter("registro", user.getRegistro())
                     .executeUpdate();
         });
     }
 
-    public boolean tryDelete(Long id) {
+    public boolean tryDelete(Long registro) {
         try (var session = sessionFactory.openSession()) {
-            long numberOfAdmins = session.createSelectionQuery("select count(*) from User user where user.isAdmin = :admin", Long.class)
+            long numberOfAdmins = session.createSelectionQuery("select count(*) from User user where user.tipo = :admin", Long.class)
                     .setParameter("admin", true)
                     .uniqueResult();
-            if (numberOfAdmins < 2) {
+            if (numberOfAdmins == 1) {
                 return false;
             }
-
-            deleteById(id);
+            deleteByRegistro(registro);
             return true;
+        }
+    }
+
+    public long countNumberOfAdmins() {
+        try (var session = sessionFactory.openSession()) {
+            return session.createSelectionQuery("select count(*) from User user where user.tipo = :admin", Long.class)
+                    .setParameter("admin", true)
+                    .uniqueResult();
         }
     }
 }
