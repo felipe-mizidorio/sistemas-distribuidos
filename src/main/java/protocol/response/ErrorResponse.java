@@ -12,7 +12,7 @@ public class ErrorResponse implements Response<ErrorResponse.Payload> {
     private final Payload error;
 
     public ErrorResponse(int code, String message) {
-        this(new Payload(code, message));
+        this.error = new Payload(code, message);
     }
 
     public ErrorResponse(Payload error) {
@@ -37,17 +37,17 @@ public class ErrorResponse implements Response<ErrorResponse.Payload> {
         private final int code;
 
         @NotBlank
-        private final String message;
+        private final String mensagem;
 
         public Payload(int code, String message) {
             this.code = code;
-            this.message = message;
+            this.mensagem = message;
         }
 
         @Override
         public String toString() {
-            return "{ code=" + code +
-                    ", message='" + message + '\'' +
+            return "{code=" + code +
+                    ", mensagem='" + mensagem + '\'' +
                     '}';
         }
     }

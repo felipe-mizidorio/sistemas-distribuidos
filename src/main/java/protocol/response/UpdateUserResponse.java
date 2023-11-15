@@ -3,14 +3,19 @@ package protocol.response;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import server.datatransferobject.UserDTO;
+import server.entity.User;
 
-public class FindUserResponse implements Response<UserDTO> {
+public class UpdateUserResponse implements Response<UserDTO> {
     @Valid
     @NotNull
     private final UserDTO payload;
 
-    public FindUserResponse(UserDTO payload) {
+    public UpdateUserResponse(UserDTO payload) {
         this.payload = payload;
+    }
+
+    public static UpdateUserResponse of(User user) {
+        return new UpdateUserResponse(UserDTO.of(user));
     }
 
     @Override
@@ -20,7 +25,7 @@ public class FindUserResponse implements Response<UserDTO> {
 
     @Override
     public String toString() {
-        return "FindUserResponse{" +
+        return "UpdateUserResponse{" +
                 "payload=" + payload +
                 '}';
     }
