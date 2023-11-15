@@ -41,6 +41,19 @@ public class UserController implements Controller {
         return Jwt.createJWT(user.getTipo(), user.getRegistro());
     }
 
+    public void checkCredentials(DeleteUser user) throws AuthenticationException, ResourceNotFoundException {
+        var entitySender = repository.find(user.getRegistroSender())
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
+        String email = entitySender.getEmail();
+        String senha = entitySender.getSenha();
+        if(!user.getEmail().equals(email)) {
+            throw new AuthenticationException();
+        }
+        if(!user.getSenha().equals(senha)) {
+            throw new AuthenticationException();
+        }
+    }
+
     public List<UserDTO> findUsers() {
         return repository.findAll()
                 .stream()
@@ -48,10 +61,9 @@ public class UserController implements Controller {
                 .toList();
     }
 
-    public UserDTO findUser(long id) throws ResourceNotFoundException {
-        var entity = repository.find(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-
+    public UserDTO findUser(Long registro) throws ResourceNotFoundException {
+        var entity = repository.find(registro)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
         return UserDTO.of(entity);
     }
 
@@ -62,6 +74,11 @@ public class UserController implements Controller {
     }
 
     public UserDTO updateUser(UpdateUser user) throws ServerResponseException {
+        if(user.getSender() == user.getRegistro() && !user.getTipo()) {
+            if(repository.countNumberOfAdmins() == 1) {
+                throw new BadRequestException("O último admin não pode alterar o seu tipo.");
+            }
+        }
         var entity = repository.update(user.getRegistro(), User.of(user));
         return UserDTO.of(entity);
     }
@@ -69,10 +86,10 @@ public class UserController implements Controller {
     public void deleteUser(DeleteUser user) throws BadRequestException {
         if (user.getIsSenderAdmin() && user.getRegistroSender().equals(user.getRegistroToDelete())) {
             if (!repository.tryDelete(user.getRegistroToDelete())) {
-                throw new BadRequestException("Bad Request");
+                throw new BadRequestException("O último admin não pode ser deletado.");
             }
         } else {
-            repository.deleteById(user.getRegistroToDelete());
+            repository.deleteByRegistro(user.getRegistroToDelete());
         }
     }
 }
