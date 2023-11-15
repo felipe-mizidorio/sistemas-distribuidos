@@ -10,11 +10,11 @@ import java.util.Optional;
 public interface Repository {
     void create(User newInstance) throws ServerResponseException;
 
-    User update(Long id, User instance) throws ServerResponseException;
+    User update(Long registro, User instance) throws ServerResponseException;
 
-    Optional<User> find(Long id);
+    Optional<User> find(Long registro);
 
     List<User> findAll();
 
-    void deleteById(Long id) throws ResourceNotFoundException;
+    void deleteByRegistro(Long registro) throws ResourceNotFoundException;
 }
