@@ -4,6 +4,7 @@ import com.google.gson.JsonSyntaxException;
 import json.Json;
 import json.validation.ConstraintViolated;
 import json.validation.ValidateJson;
+import jwt.Jwt;
 import protocol.Optional;
 import protocol.request.*;
 import protocol.request.header.Header;
@@ -58,7 +59,7 @@ public class Client {
 
                 String jsonResponse = in.readLine();
                 if (jsonResponse == null) {
-                    System.err.println("ERRO: JSON Response nulo");
+                    System.err.println("ERRO: JSON Response nulo.");
                     break;
                 }
 
@@ -76,6 +77,7 @@ public class Client {
                 }
 
                 if (response instanceof LogoutResponse) {
+                    token = null;
                     break;
                 }
 
@@ -107,8 +109,16 @@ public class Client {
                     return makeRequest(stdin, token, AdminCreateUserRequest.class);
                 case RequestOperations.ADMIN_ATUALIZAR_USUARIO:
                     return makeRequest(stdin, token, AdminUpdateUserRequest.class);
+                case RequestOperations.ADMIN_DELETAR_USUARIO:
+                    return makeRequest(stdin, token, AdminDeleteUserRequest.class);
+                case RequestOperations.BUSCAR_USUARIO:
+                    return makeRequest(stdin, token, FindUserRequest.class);
                 case RequestOperations.CADASTRAR_USUARIO:
                     return makeRequest(stdin, token, CreateUserRequest.class);
+                case RequestOperations.ATUALIZAR_USUARIO:
+                    return makeRequest(stdin, token, UpdateUserRequest.class);
+                case RequestOperations.DELETAR_USUARIO:
+                    return makeRequest(stdin, token, DeleteUserRequest.class);
                 default:
                     System.out.println("Operação inválida. Tente novamente.");
             }
@@ -167,15 +177,19 @@ public class Client {
     private static Response<?> handleResponse(String json, Request<?> request) {
         Response<?> response = null;
         try {
+            try {
+                ErrorResponse errorResponse = Json.fromJson(json, ErrorResponse.class);
+                if(errorResponse.payload() != null) {
+                    return errorResponse;
+                }
+            } catch (JsonSyntaxException ignored) { }
+
             Class<?> requestClass = request.getClass();
             if (requestClass == LoginRequest.class) {
                 response = Json.fromJson(json, LoginResponse.class);
             }
             if (requestClass == LogoutRequest.class) {
                 response = Json.fromJson(json, LogoutResponse.class);
-            }
-            if (requestClass == CreateUserRequest.class) {
-                response = Json.fromJson(json, CreateUserResponse.class);
             }
             if (requestClass == AdminFindUsersRequest.class) {
                 response = Json.fromJson(json, FindUsersResponse.class);
@@ -184,16 +198,25 @@ public class Client {
                 response = Json.fromJson(json, FindUserResponse.class);
             }
             if (requestClass == AdminCreateUserRequest.class) {
-                response = Json.fromJson(json, AdminCreateUserResponse.class);
+                response = Json.fromJson(json, CreateUserResponse.class);
             }
             if (requestClass == AdminUpdateUserRequest.class) {
-                response = Json.fromJson(json, AdminUpdateUserResponse.class);
+                response = Json.fromJson(json, UpdateUserResponse.class);
             }
             if (requestClass == AdminDeleteUserRequest.class) {
-                response = Json.fromJson(json, AdminDeleteUserResponse.class);
+                response = Json.fromJson(json, DeleteUserResponse.class);
             }
-            if (response == null || response.payload() == null) {
-                response = Json.fromJson(json, ErrorResponse.class);
+            if (requestClass == FindUserRequest.class) {
+                response = Json.fromJson(json, FindUserResponse.class);
+            }
+            if (requestClass == CreateUserRequest.class) {
+                response = Json.fromJson(json, CreateUserResponse.class);
+            }
+            if (requestClass == UpdateUserRequest.class) {
+                response = Json.fromJson(json, UpdateUserResponse.class);
+            }
+            if (requestClass == DeleteUserRequest.class) {
+                response = Json.fromJson(json, DeleteUserResponse.class);
             }
             ValidateJson.validate(response);
             return response;
