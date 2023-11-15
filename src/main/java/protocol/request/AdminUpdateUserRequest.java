@@ -1,5 +1,7 @@
 package protocol.request;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import protocol.Optional;
 import protocol.request.header.Header;
@@ -9,9 +11,11 @@ import lombok.Getter;
 
 @Getter
 public class AdminUpdateUserRequest extends Request<AdminUpdateUserRequest.Payload> {
+    @NotNull(message = "payload não pode ser nulo.")
+    @Valid
     private final Payload payload;
 
-    public AdminUpdateUserRequest(String token, Long registro, @Optional String email,
+    public AdminUpdateUserRequest(String token, @NotNull Long registro, @Optional String email,
                                   @Optional String nome, @Optional String senha,
                                   @Optional Boolean tipo) {
         super(new Header(RequestOperations.ADMIN_ATUALIZAR_USUARIO, token));

@@ -35,7 +35,7 @@ public class AdminDeleteUserRequest extends Request<AdminDeleteUserRequest.Paylo
 
         @Override
         public String toString() {
-            return "{ registro=" + registro +
+            return "{registro=" + registro +
                     '}';
         }
     }
