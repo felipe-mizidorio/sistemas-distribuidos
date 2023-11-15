@@ -4,7 +4,9 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import jwt.Jwt;
+import server.controller.UserController;
 import server.exceptions.AuthenticationException;
+import server.exceptions.ResourceNotFoundException;
 import server.exceptions.ServerResponseException;
 
 public class ValidateToken {
@@ -23,6 +25,11 @@ public class ValidateToken {
         Claim isAdmin = jwt.getClaim("isAdmin");
 
         if (userId.isMissing() || userId.isNull() || isAdmin.isMissing() || isAdmin.isNull()) {
+            throw new AuthenticationException();
+        }
+        try {
+            UserController.getInstance().findUser(Jwt.getId(token));
+        } catch(ResourceNotFoundException e) {
             throw new AuthenticationException();
         }
     }
