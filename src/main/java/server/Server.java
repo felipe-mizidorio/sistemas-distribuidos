@@ -8,6 +8,7 @@ import server.datatransferobject.CreateUser;
 import server.exceptions.ServerResponseException;
 import server.controller.UserController;
 import server.processes.*;
+import server.processes.Process;
 import server.router.Router;
 
 import java.net.*;
@@ -23,12 +24,15 @@ public class Server extends Thread {
             routes = Router.builder()
                     .addRoute(RequestOperations.LOGIN, new LoginProcess())
                     .addRoute(RequestOperations.LOGOUT, new LogoutProcess())
-                    .addRoute(RequestOperations.ADMIN_BUSCAR_USUARIOS, new AdminFindUsersProcess())
                     .addRoute(RequestOperations.ADMIN_BUSCAR_USUARIO, new AdminFindUserProcess())
+                    .addRoute(RequestOperations.ADMIN_BUSCAR_USUARIOS, new AdminFindUsersProcess())
                     .addRoute(RequestOperations.ADMIN_CADASTRAR_USUARIO, new AdminCreateUserProcess())
                     .addRoute(RequestOperations.ADMIN_ATUALIZAR_USUARIO, new AdminUpdateUserProcess())
                     .addRoute(RequestOperations.ADMIN_DELETAR_USUARIO, new AdminDeleteUserProcess())
+                    .addRoute(RequestOperations.BUSCAR_USUARIO, new FindUserProcess())
                     .addRoute(RequestOperations.CADASTRAR_USUARIO, new CreateUserProcess())
+                    .addRoute(RequestOperations.ATUALIZAR_USUARIO, new UpdateUserProcess())
+                    .addRoute(RequestOperations.DELETAR_USUARIO, new DeleteUserProcess())
                     .build();
         }
         start();
@@ -36,7 +40,7 @@ public class Server extends Thread {
 
     public static void main(String[] args) throws IOException, ServerResponseException {
         UserController.getInstance()
-                .createUser(new CreateUser("felipe@email.com", "123456", "Felipe", true));
+                .createUser(new CreateUser("admin@email.com", "123456", "Admin", true));
 
         UserController.getInstance()
                 .createUser(new CreateUser("nome@email.com", "123456", "Nome", false));
