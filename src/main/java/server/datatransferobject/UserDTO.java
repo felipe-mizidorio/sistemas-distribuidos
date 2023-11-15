@@ -39,8 +39,8 @@ public class UserDTO {
         return "UserDTO{" +
                 "nome='" + nome + '\'' +
                 ", email='" + email + '\'' +
-                ", isAdmin=" + tipo +
-                ", id=" + registro +
+                ", tipo=" + tipo +
+                ", registro=" + registro +
                 '}';
     }
 }
