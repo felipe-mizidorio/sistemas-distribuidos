@@ -1,7 +1,7 @@
 package server.processes;
 
 import protocol.request.AdminCreateUserRequest;
-import protocol.response.AdminCreateUserResponse;
+import protocol.response.CreateUserResponse;
 import protocol.response.Response;
 import server.datatransferobject.CreateUser;
 import server.exceptions.ServerResponseException;
@@ -23,6 +23,6 @@ public class AdminCreateUserProcess extends ProcessTemplate {
                 .email(payload.getEmail())
                 .build();
         var createdUser = UserController.getInstance().createUser(user);
-        return new AdminCreateUserResponse(createdUser);
+        return new CreateUserResponse(createdUser);
     }
 }

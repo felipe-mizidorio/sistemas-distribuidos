@@ -18,7 +18,7 @@ public class AdminFindUsersProcess extends ProcessTemplate {
         ValidateToken.validate(token);
         ValidateAdmin.validate(token);
         UserController controller = UserController.getInstance();
-        List<UserDTO> users = controller.findUsers();
-        return new FindUsersResponse(users);
+        List<UserDTO> usuarios = controller.findUsers();
+        return new FindUsersResponse(usuarios);
     }
 }

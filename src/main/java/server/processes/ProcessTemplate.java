@@ -7,7 +7,6 @@ import json.validation.ValidateJson;
 import server.exceptions.BadRequestException;
 
 public abstract class ProcessTemplate implements Process {
-
     public <T> T buildRequest(String json, Class<T> className) throws BadRequestException {
         try {
             var request = Json.fromJson(json, className);

@@ -1,8 +1,8 @@
 package server.processes;
 
 import jwt.Jwt;
-import protocol.request.AdminFindUserRequest;
-import protocol.response.AdminDeleteUserResponse;
+import protocol.request.AdminDeleteUserRequest;
+import protocol.response.DeleteUserResponse;
 import protocol.response.Response;
 import server.datatransferobject.DeleteUser;
 import server.exceptions.ServerResponseException;
@@ -11,9 +11,8 @@ import jwt.validation.ValidateAdmin;
 import jwt.validation.ValidateToken;
 
 public class AdminDeleteUserProcess extends ProcessTemplate {
-
     public Response<?> execute(String json) throws ServerResponseException {
-        var adminDeleteUserRequestReceived = buildRequest(json, AdminFindUserRequest.class);
+        var adminDeleteUserRequestReceived = buildRequest(json, AdminDeleteUserRequest.class);
         var token = adminDeleteUserRequestReceived.getHeader().token();
         ValidateToken.validate(token);
         ValidateAdmin.validate(token);
@@ -25,7 +24,9 @@ public class AdminDeleteUserProcess extends ProcessTemplate {
                 .registroToDelete(payload.getRegistro())
                 .isSenderAdmin(isAdmin)
                 .build();
-        UserController.getInstance().deleteUser(user);
-        return new AdminDeleteUserResponse();
+        UserController controller = UserController.getInstance();
+        controller.findUser(user.getRegistroToDelete());
+        controller.deleteUser(user);
+        return new DeleteUserResponse(payload.getRegistro());
     }
 }
