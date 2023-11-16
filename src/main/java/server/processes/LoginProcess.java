@@ -9,7 +9,8 @@ import server.controller.UserController;
 public class LoginProcess extends ProcessTemplate {
     public Response<?> execute(String json) throws ServerResponseException {
         var loginRequestReceived = buildRequest(json, LoginRequest.class);
-        String userToken = UserController.getInstance().login(loginRequestReceived.getPayload());
+        UserController controller = UserController.getInstance();
+        String userToken = controller.login(loginRequestReceived.getPayload());
         return new LoginResponse(userToken);
     }
 }
