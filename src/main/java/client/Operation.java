@@ -6,33 +6,27 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.InputMethodListener;
 
-public class ClientInterface extends JDialog {
+public class Operation extends JDialog{
     private JPanel panel1;
-    private JButton acceptButton;
-    private JTextField ipField;
-    private JTextField portaField;
+    private JTextField textField1;
+    private JButton button1;
 
     @Getter
-    private String ip;
-    @Getter
-    private String porta;
+    private String text;
 
-    public ClientInterface(JFrame parent) {
+    public Operation(JFrame parent) {
         super(parent);
-        setTitle("Start Server connection");
+        setTitle("Operation");
         setContentPane(panel1);
         setMinimumSize(new Dimension(300, 150));
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        acceptButton.addActionListener(new ActionListener() {
+        button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ip = ipField.getText();
-                porta = portaField.getText();
+                text = textField1.getText();
                 dispose();
             }
         });

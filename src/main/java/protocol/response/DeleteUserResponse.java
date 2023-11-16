@@ -11,7 +11,7 @@ public class DeleteUserResponse implements Response<DeleteUserResponse.Payload> 
     }
 
     public DeleteUserResponse(long registro) {
-        this.payload = new Payload("Usuário com registro deletado com sucesso: " + registro);
+        this.payload = new Payload("Usuário deletado com sucesso: " + registro);
     }
 
     public Payload payload() {

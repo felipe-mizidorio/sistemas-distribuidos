@@ -4,12 +4,12 @@ import com.google.gson.JsonSyntaxException;
 import json.Json;
 import json.validation.ConstraintViolated;
 import json.validation.ValidateJson;
-import jwt.Jwt;
 import protocol.Optional;
 import protocol.request.*;
 import protocol.request.header.Header;
 import protocol.response.*;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,11 +22,15 @@ import java.net.UnknownHostException;
 
 public class Client {
     public static void main(String[] args) throws IOException {
-        BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print("IP: ");
-        String IPServer = stdIn.readLine();
-        System.out.print("Port: ");
-        int port = Integer.parseInt(stdIn.readLine());
+//        BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+//        System.out.print("IP: ");
+//        String IPServer = stdIn.readLine();
+//        System.out.print("Port: ");
+//        int port = Integer.parseInt(stdIn.readLine());
+
+        ClientInterface intr = new ClientInterface(null);
+        String IPServer = intr.getIp();
+        int port = Integer.parseInt(intr.getPorta());
 
         try (Socket echoSocket = new Socket(IPServer, port);
              PrintWriter out = new PrintWriter(echoSocket.getOutputStream(), true);
@@ -90,8 +94,11 @@ public class Client {
 
     private static Request<?> requestFactory(BufferedReader stdin, String token) throws IOException {
         while (true) {
-            System.out.print("Insira a operação: ");
-            String operation = stdin.readLine();
+//            System.out.print("Insira a operação: ");
+//            String operation = stdin.readLine();
+            Operation op = new Operation(null);
+            String operation = op.getText();
+
             if (operation == null) {
                 throw new IOException();
             }

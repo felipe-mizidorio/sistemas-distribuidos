@@ -28,6 +28,6 @@ public class DeleteUserProcess extends ProcessTemplate {
         UserController controller = UserController.getInstance();
         controller.checkCredentials(user);
         controller.deleteUser(user);
-        return new DeleteUserResponse();
+        return new DeleteUserResponse(idSender);
     }
 }
