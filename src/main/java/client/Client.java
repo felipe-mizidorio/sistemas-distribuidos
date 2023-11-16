@@ -1,5 +1,8 @@
 package client;
 
+import client.interfaces.Home;
+import client.interfaces.InitInterface;
+import client.interfaces.Login;
 import com.google.gson.JsonSyntaxException;
 import json.Json;
 import json.validation.ConstraintViolated;
@@ -9,7 +12,6 @@ import protocol.request.*;
 import protocol.request.header.Header;
 import protocol.response.*;
 
-import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -28,9 +30,9 @@ public class Client {
 //        System.out.print("Port: ");
 //        int port = Integer.parseInt(stdIn.readLine());
 
-        ClientInterface intr = new ClientInterface(null);
-        String IPServer = intr.getIp();
-        int port = Integer.parseInt(intr.getPorta());
+        InitInterface init = new InitInterface(null);
+        String IPServer = init.getIp();
+        int port = Integer.parseInt(init.getPorta());
 
         try (Socket echoSocket = new Socket(IPServer, port);
              PrintWriter out = new PrintWriter(echoSocket.getOutputStream(), true);
@@ -96,8 +98,8 @@ public class Client {
         while (true) {
 //            System.out.print("Insira a operação: ");
 //            String operation = stdin.readLine();
-            Operation op = new Operation(null);
-            String operation = op.getText();
+            Home op = new Home(null);
+            String operation = op.getOperation();
 
             if (operation == null) {
                 throw new IOException();
@@ -105,7 +107,8 @@ public class Client {
 
             switch (operation) {
                 case RequestOperations.LOGIN:
-                    return makeRequest(stdin, token, LoginRequest.class);
+                    Login login = new Login(null);
+                    return new LoginRequest(login.getEmail(), login.getSenha());
                 case RequestOperations.LOGOUT:
                     return makeRequest(stdin, token, LogoutRequest.class);
                 case RequestOperations.ADMIN_BUSCAR_USUARIOS:

@@ -1,4 +1,4 @@
-package client;
+package client.interfaces;
 
 import lombok.Getter;
 
@@ -6,10 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.InputMethodListener;
 
-public class ClientInterface extends JDialog {
+public class InitInterface extends JDialog {
     private JPanel panel1;
     private JButton acceptButton;
     private JTextField ipField;
@@ -20,7 +18,7 @@ public class ClientInterface extends JDialog {
     @Getter
     private String porta;
 
-    public ClientInterface(JFrame parent) {
+    public InitInterface(JFrame parent) {
         super(parent);
         setTitle("Start Server connection");
         setContentPane(panel1);
