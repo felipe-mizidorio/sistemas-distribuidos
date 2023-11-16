@@ -4,6 +4,8 @@ import protocol.request.AdminCreateUserRequest;
 import protocol.response.CreateUserResponse;
 import protocol.response.Response;
 import server.datatransferobject.CreateUser;
+import server.datatransferobject.UserDTO;
+import server.entity.User;
 import server.exceptions.ServerResponseException;
 import server.controller.UserController;
 import jwt.validation.ValidateAdmin;
@@ -22,7 +24,8 @@ public class AdminCreateUserProcess extends ProcessTemplate {
                 .senha(payload.getSenha())
                 .email(payload.getEmail())
                 .build();
-        var createdUser = UserController.getInstance().createUser(user);
+        UserController controller = UserController.getInstance();
+        UserDTO createdUser = controller.createUser(user);
         return new CreateUserResponse(createdUser);
     }
 }
