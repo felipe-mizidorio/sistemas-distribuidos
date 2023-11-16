@@ -5,6 +5,7 @@ import protocol.response.CreateUserResponse;
 import protocol.response.Response;
 import server.controller.UserController;
 import server.datatransferobject.CreateUser;
+import server.datatransferobject.UserDTO;
 import server.exceptions.ServerResponseException;
 
 public class CreateUserProcess extends ProcessTemplate {
@@ -17,7 +18,8 @@ public class CreateUserProcess extends ProcessTemplate {
                 .senha(payload.getSenha())
                 .email(payload.getEmail())
                 .build();
-        var createdUser = UserController.getInstance().createUser(user);
+        UserController controller = UserController.getInstance();
+        UserDTO createdUser = controller.createUser(user);
         return new CreateUserResponse(createdUser);
     }
 }

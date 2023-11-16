@@ -6,12 +6,8 @@ import lombok.Getter;
 public class DeleteUserResponse implements Response<DeleteUserResponse.Payload> {
     private final Payload payload;
 
-    public DeleteUserResponse() {
-        this.payload = new Payload("Usuário deletado.");
-    }
-
     public DeleteUserResponse(long registro) {
-        this.payload = new Payload("Usuário com registro deletado com sucesso: " + registro);
+        this.payload = new Payload("Usuário deletado com sucesso: " + registro);
     }
 
     public Payload payload() {

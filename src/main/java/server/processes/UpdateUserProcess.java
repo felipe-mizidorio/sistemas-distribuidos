@@ -15,7 +15,6 @@ public class UpdateUserProcess extends ProcessTemplate {
         var updateUserRequestReceived = buildRequest(json, UpdateUserRequest.class);
         var token = updateUserRequestReceived.getHeader().token();
         ValidateToken.validate(token);
-        UserController controller = UserController.getInstance();
         var payload = updateUserRequestReceived.getPayload();
         var user = UpdateUser.builder()
                 .registro(Jwt.getId(token))
@@ -24,6 +23,7 @@ public class UpdateUserProcess extends ProcessTemplate {
                 .senha(payload.getSenha())
                 .tipo(Jwt.getAdminStatus(token))
                 .build();
+        UserController controller = UserController.getInstance();
         UserDTO updatedUser = controller.updateUser(user);
         return new UpdateUserResponse(updatedUser);
     }
