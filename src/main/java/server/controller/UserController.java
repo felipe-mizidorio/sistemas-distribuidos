@@ -2,10 +2,10 @@ package server.controller;
 
 import jwt.Jwt;
 import protocol.request.LoginRequest;
-import server.datatransferobject.CreateUser;
-import server.datatransferobject.DeleteUser;
-import server.datatransferobject.UpdateUser;
-import server.datatransferobject.UserDTO;
+import server.datatransferobject.user.CreateUser;
+import server.datatransferobject.user.DeleteUser;
+import server.datatransferobject.user.UpdateUser;
+import server.datatransferobject.user.UserDTO;
 import server.entity.User;
 import server.exceptions.AuthenticationException;
 import server.exceptions.BadRequestException;
@@ -74,7 +74,7 @@ public class UserController implements Controller {
     }
 
     public UserDTO updateUser(UpdateUser user) throws ServerResponseException {
-        if(user.getSender() == user.getRegistro() && !user.getTipo()) {
+        if(user.getSender() == user.getRegistro() && user.getTipo() != null && !user.getTipo()) {
             if(repository.countNumberOfAdmins() == 1) {
                 throw new BadRequestException("O último admin não pode alterar o seu tipo.");
             }

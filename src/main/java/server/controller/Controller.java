@@ -1,10 +1,10 @@
 package server.controller;
 
 import protocol.request.LoginRequest;
-import server.datatransferobject.CreateUser;
-import server.datatransferobject.DeleteUser;
-import server.datatransferobject.UpdateUser;
-import server.datatransferobject.UserDTO;
+import server.datatransferobject.user.CreateUser;
+import server.datatransferobject.user.DeleteUser;
+import server.datatransferobject.user.UpdateUser;
+import server.datatransferobject.user.UserDTO;
 import server.entity.User;
 import server.exceptions.AuthenticationException;
 import server.exceptions.BadRequestException;
