@@ -1,9 +1,11 @@
-package protocol.request;
+package protocol.request.admin;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import protocol.Optional;
+import protocol.request.Request;
+import protocol.request.RequestOperations;
 import protocol.request.header.Header;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Positive;
@@ -15,8 +17,8 @@ public class AdminUpdateUserRequest extends Request<AdminUpdateUserRequest.Paylo
     @Valid
     private final Payload payload;
 
-    public AdminUpdateUserRequest(String token, @NotNull Long registro, @Optional String email,
-                                  @Optional String nome, @Optional String senha,
+    public AdminUpdateUserRequest(String token, @NotNull Long registro, @Optional String nome,
+                                  @Optional String email, @Optional String senha,
                                   @Optional Boolean tipo) {
         super(new Header(RequestOperations.ADMIN_ATUALIZAR_USUARIO, token));
         payload = new Payload(registro, email, nome, senha, tipo);

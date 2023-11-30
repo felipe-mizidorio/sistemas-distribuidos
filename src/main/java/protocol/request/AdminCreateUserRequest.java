@@ -1,6 +1,8 @@
-package protocol.request;
+package protocol.request.admin;
 
 import jakarta.validation.constraints.*;
+import protocol.request.Request;
+import protocol.request.RequestOperations;
 import protocol.request.header.Header;
 import jakarta.validation.Valid;
 import lombok.Getter;

@@ -24,7 +24,7 @@ public class UpdateUserRequest extends Request<UpdateUserRequest.Payload> {
 
     @Override
     public String toString() {
-        return "AdminUpdateUserRequest{" +
+        return "UpdateUserRequest{" +
                 "payload=" + payload +
                 '}';
     }

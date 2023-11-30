@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Home extends JDialog{
-    private JPanel panel1;
+    private JPanel clientHomePanel;
     private JButton LOGINButton;
     private JButton LOGOUTButton;
     private JButton ADMIN_BUSCAR_USUARIOSButton;
@@ -19,14 +19,22 @@ public class Home extends JDialog{
     private JButton CADASTRAR_USUARIOButton;
     private JButton ATUALIZAR_USUARIOButton;
     private JButton DELETAR_USUARIOButton;
+    private JButton BUSCAR_PDISButton;
+    private JButton CADASTRAR_PDIButton;
+    private JButton ATUALIZAR_PDIButton;
+    private JButton DELETAR_PDIButton;
+    private JButton BUSCAR_SEGMENTOSButton;
+    private JButton CADASTRAR_SEGMENTOButton;
+    private JButton ATUALIZAR_SEGMENTOButton;
+    private JButton DELETAR_SEGMENTOButton;
 
     @Getter
     private String operation;
 
     public Home(JFrame parent) {
         super(parent);
-        setTitle("Operation");
-        setContentPane(panel1);
+        setTitle("Client HomePage");
+        setContentPane(clientHomePanel);
         setMinimumSize(new Dimension(500, 500));
         setModal(true);
         setLocationRelativeTo(parent);
@@ -98,6 +106,62 @@ public class Home extends JDialog{
             @Override
             public void actionPerformed(ActionEvent e) {
                 operation = "DELETAR_USUARIO";
+                dispose();
+            }
+        });
+        BUSCAR_PDISButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                operation = "BUSCAR_PDIS";
+                dispose();
+            }
+        });
+        CADASTRAR_PDIButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                operation = "CADASTRAR_PDI";
+                dispose();
+            }
+        });
+        ATUALIZAR_PDIButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                operation = "ATUALIZAR_PDI";
+                dispose();
+            }
+        });
+        DELETAR_PDIButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                operation = "DELETAR_PDI";
+                dispose();
+            }
+        });
+        BUSCAR_SEGMENTOSButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                operation = "BUSCAR_SEGMENTOS";
+                dispose();
+            }
+        });
+        CADASTRAR_SEGMENTOButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                operation = "CADASTRAR_SEGMENTO";
+                dispose();
+            }
+        });
+        ATUALIZAR_SEGMENTOButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                operation = "ATUALIZAR_SEGMENTO";
+                dispose();
+            }
+        });
+        DELETAR_SEGMENTOButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                operation = "DELETAR_SEGMENTO";
                 dispose();
             }
         });

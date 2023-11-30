@@ -1,4 +1,4 @@
-package client.interfaces;
+package client.interfaces.request;
 
 import lombok.Getter;
 
@@ -7,10 +7,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Login extends JDialog {
-    private JPanel loginPanel;
-    private JTextField emailField;
+public class DeleteUserInterfaceRequest extends JDialog {
+    private JPanel deleteUser;
     private JTextField senhaField;
+    private JTextField emailField;
     private JButton OKButton;
 
     @Getter
@@ -18,22 +18,29 @@ public class Login extends JDialog {
     @Getter
     private String senha;
 
-    public Login(JFrame parent) {
+    public DeleteUserInterfaceRequest(JFrame parent) {
         super(parent);
-        setTitle("Operation");
-        setContentPane(loginPanel);
-        setMinimumSize(new Dimension(500, 500));
+        setTitle("Delete User Request");
+        setContentPane(deleteUser);
+        setMinimumSize(new Dimension(400, 200));
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         OKButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                email = emailField.getText();
-                senha = senhaField.getText();
+                email = verify(emailField.getText());
+                senha = verify(senhaField.getText());
                 dispose();
             }
         });
         setVisible(true);
+    }
+
+    private String verify(String field) {
+        if(field.isBlank() || field.isEmpty()) {
+            field = null;
+        }
+        return field;
     }
 }

@@ -1,5 +1,7 @@
-package protocol.request;
+package protocol.request.admin;
 
+import protocol.request.Request;
+import protocol.request.RequestOperations;
 import protocol.request.header.Header;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -27,9 +29,10 @@ public class AdminFindUserRequest extends Request<AdminFindUserRequest.Payload> 
     @Getter
     public static class Payload {
         @Positive
-        private final long registro;
+        @NotNull
+        private final Long registro;
 
-        public Payload(long registro) {
+        public Payload(Long registro) {
             this.registro = registro;
         }
 

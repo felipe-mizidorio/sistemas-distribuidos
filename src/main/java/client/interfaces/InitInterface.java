@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class InitInterface extends JDialog {
-    private JPanel panel1;
+    private JPanel clientInitPanel;
     private JButton acceptButton;
     private JTextField ipField;
     private JTextField portaField;
@@ -21,7 +21,7 @@ public class InitInterface extends JDialog {
     public InitInterface(JFrame parent) {
         super(parent);
         setTitle("Start Server connection");
-        setContentPane(panel1);
+        setContentPane(clientInitPanel);
         setMinimumSize(new Dimension(300, 150));
         setModal(true);
         setLocationRelativeTo(parent);

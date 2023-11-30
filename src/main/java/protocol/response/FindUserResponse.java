@@ -2,7 +2,7 @@ package protocol.response;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import server.datatransferobject.UserDTO;
+import server.datatransferobject.user.UserDTO;
 
 public class FindUserResponse implements Response<UserDTO> {
     @Valid
