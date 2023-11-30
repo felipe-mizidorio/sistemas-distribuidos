@@ -5,6 +5,8 @@
 
     <persistence-unit name="server.entity">
         <class>server.entity.User</class>
+        <class>server.entity.Node</class>
+        <class>server.entity.Segment</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
