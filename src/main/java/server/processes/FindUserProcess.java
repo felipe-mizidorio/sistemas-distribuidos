@@ -6,7 +6,7 @@ import protocol.request.FindUserRequest;
 import protocol.response.FindUserResponse;
 import protocol.response.Response;
 import server.controller.UserController;
-import server.datatransferobject.UserDTO;
+import server.datatransferobject.user.UserDTO;
 import server.exceptions.ServerResponseException;
 
 public class FindUserProcess extends ProcessTemplate {

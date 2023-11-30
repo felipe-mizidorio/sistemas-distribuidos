@@ -6,8 +6,7 @@ import protocol.request.DeleteUserRequest;
 import protocol.response.DeleteUserResponse;
 import protocol.response.Response;
 import server.controller.UserController;
-import server.datatransferobject.DeleteUser;
-import server.datatransferobject.UserDTO;
+import server.datatransferobject.user.DeleteUser;
 import server.exceptions.ServerResponseException;
 
 public class DeleteUserProcess extends ProcessTemplate {

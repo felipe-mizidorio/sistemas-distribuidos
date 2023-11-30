@@ -3,7 +3,7 @@ package server.processes;
 import protocol.request.AdminFindUsersRequest;
 import protocol.response.FindUsersResponse;
 import protocol.response.Response;
-import server.datatransferobject.UserDTO;
+import server.datatransferobject.user.UserDTO;
 import server.exceptions.ServerResponseException;
 import server.controller.UserController;
 import jwt.validation.ValidateAdmin;

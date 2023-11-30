@@ -6,8 +6,8 @@ import protocol.request.UpdateUserRequest;
 import protocol.response.Response;
 import protocol.response.UpdateUserResponse;
 import server.controller.UserController;
-import server.datatransferobject.UpdateUser;
-import server.datatransferobject.UserDTO;
+import server.datatransferobject.user.UpdateUser;
+import server.datatransferobject.user.UserDTO;
 import server.exceptions.ServerResponseException;
 
 public class UpdateUserProcess extends ProcessTemplate {

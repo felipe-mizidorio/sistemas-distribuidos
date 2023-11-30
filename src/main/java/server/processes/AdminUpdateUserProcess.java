@@ -1,13 +1,11 @@
 package server.processes;
 
-import com.auth0.jwt.JWT;
-import json.Json;
 import jwt.Jwt;
 import protocol.request.AdminUpdateUserRequest;
 import protocol.response.Response;
 import protocol.response.UpdateUserResponse;
-import server.datatransferobject.UpdateUser;
-import server.datatransferobject.UserDTO;
+import server.datatransferobject.user.UpdateUser;
+import server.datatransferobject.user.UserDTO;
 import server.exceptions.ServerResponseException;
 import server.controller.UserController;
 import jwt.validation.ValidateAdmin;

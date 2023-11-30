@@ -4,7 +4,7 @@ import jwt.Jwt;
 import protocol.request.AdminDeleteUserRequest;
 import protocol.response.DeleteUserResponse;
 import protocol.response.Response;
-import server.datatransferobject.DeleteUser;
+import server.datatransferobject.user.DeleteUser;
 import server.exceptions.ServerResponseException;
 import server.controller.UserController;
 import jwt.validation.ValidateAdmin;
