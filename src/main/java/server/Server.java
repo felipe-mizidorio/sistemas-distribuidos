@@ -4,11 +4,12 @@ import json.Json;
 import protocol.request.RequestOperations;
 import protocol.response.LogoutResponse;
 import protocol.response.Response;
-import server.datatransferobject.CreateUser;
+import server.datatransferobject.user.CreateUser;
 import server.exceptions.ServerResponseException;
 import server.controller.UserController;
+import server.interfaces.InitInterface;
 import server.processes.*;
-import server.processes.Process;
+import server.processes.routes.*;
 import server.router.Router;
 
 import java.net.*;
@@ -17,6 +18,8 @@ import java.io.*;
 public class Server extends Thread {
     private final Socket clientSocket;
     private Router routes = null;
+//    private static final List<String> onlineUsers = new LinkedList<>();
+//    private static final AtomicReference<Home> serverHome = new AtomicReference<>();
 
     private Server(Socket clientSoc) {
         clientSocket = clientSoc;
@@ -33,6 +36,14 @@ public class Server extends Thread {
                     .addRoute(RequestOperations.CADASTRAR_USUARIO, new CreateUserProcess())
                     .addRoute(RequestOperations.ATUALIZAR_USUARIO, new UpdateUserProcess())
                     .addRoute(RequestOperations.DELETAR_USUARIO, new DeleteUserProcess())
+                    .addRoute(RequestOperations.BUSCAR_PDIS, new FindNodesProcess())
+                    .addRoute(RequestOperations.CADASTRAR_PDI, new CreateNodeProcess())
+                    .addRoute(RequestOperations.ATUALIZAR_PDI, new UpdateNodeProcess())
+                    .addRoute(RequestOperations.DELETAR_PDI, new DeleteNodeProcess())
+                    .addRoute(RequestOperations.BUSCAR_SEGMENTOS, new FindSegmentsProcess())
+                    .addRoute(RequestOperations.CADASTRAR_SEGMENTO, new CreateSegmentProcess())
+                    .addRoute(RequestOperations.ATUALIZAR_SEGMENTO, new UpdateSegmentProcess())
+                    .addRoute(RequestOperations.DELETAR_SEGMENTO, new DeleteSegmentProcess())
                     .build();
         }
         start();
@@ -45,13 +56,15 @@ public class Server extends Thread {
         UserController.getInstance()
                 .createUser(new CreateUser("nome@email.com", "123456", "Nome", false));
 
-        BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print("Port: ");
-        final int port = Integer.parseInt(stdIn.readLine());
+        InitInterface init = new InitInterface(null);
+        final int port = Integer.parseInt(init.getPorta());
 
         InetAddress ipAddress = InetAddress.getByName("0.0.0.0");
         try(ServerSocket serverSocket = new ServerSocket(port, 0, ipAddress)) {
             System.out.println("Connection Socket Created");
+//            new Thread(() -> {
+//                serverHome.set(new Home(null, port, onlineUsers));
+//            }).start();
             while (true) {
                 try {
                     System.out.println("Waiting for Connection");
@@ -75,6 +88,10 @@ public class Server extends Thread {
              BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         ) {
             String inputLine;
+//            onlineUsers.add(String.valueOf(clientSocket.getInetAddress()));
+//            System.out.println(onlineUsers);
+//            Home home = serverHome.get();
+//            home.update(onlineUsers);
             while ((inputLine = in.readLine()) != null) {
                 System.out.println(clientSocket.getInetAddress() + " - Request Recebido: " + inputLine);
                 Response<?> response;
@@ -87,10 +104,13 @@ public class Server extends Thread {
                 System.out.println(clientSocket.getInetAddress() + " - Response Enviado: " + jsonResponse);
                 out.println(jsonResponse);
                 if(!clientSocket.isConnected() || clientSocket.isClosed()) {
+//                    onlineUsers.remove(String.valueOf(clientSocket.getInetAddress()));
                     break;
                 }
-                if (response instanceof LogoutResponse)
+                if (response instanceof LogoutResponse) {
+//                    onlineUsers.remove(String.valueOf(clientSocket.getInetAddress()));
                     break;
+                }
             }
         } catch (IOException e) {
             System.err.println("Problem with Communication Server");
