@@ -1,7 +1,5 @@
-package protocol.request.admin;
+package protocol.request;
 
-import protocol.request.Request;
-import protocol.request.RequestOperations;
 import protocol.request.header.Header;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

@@ -1,4 +1,4 @@
-package protocol.request.admin;
+package protocol.request;
 
 import protocol.commons.EmptyPayload;
 import protocol.request.Request;

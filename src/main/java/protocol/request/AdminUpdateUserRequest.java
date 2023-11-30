@@ -1,11 +1,9 @@
-package protocol.request.admin;
+package protocol.request;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import protocol.Optional;
-import protocol.request.Request;
-import protocol.request.RequestOperations;
 import protocol.request.header.Header;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Positive;
