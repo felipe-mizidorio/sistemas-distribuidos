@@ -6,8 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
-import server.datatransferobject.CreateUser;
-import server.datatransferobject.UpdateUser;
+import server.datatransferobject.user.CreateUser;
+import server.datatransferobject.user.UpdateUser;
 
 @Entity
 @Table(name = "Users")
