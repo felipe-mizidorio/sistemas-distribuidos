@@ -1,35 +1,26 @@
 package client;
 
-import client.interfaces.Home;
-import client.interfaces.InitInterface;
-import client.interfaces.Login;
+import client.interfaces.*;
+import client.interfaces.request.*;
+import client.interfaces.response.*;
 import com.google.gson.JsonSyntaxException;
 import json.Json;
 import json.validation.ConstraintViolated;
 import json.validation.ValidateJson;
-import protocol.Optional;
 import protocol.request.*;
-import protocol.request.header.Header;
+import protocol.request.routes.*;
 import protocol.response.*;
+import protocol.response.routes.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Parameter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class Client {
     public static void main(String[] args) throws IOException {
-//        BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-//        System.out.print("IP: ");
-//        String IPServer = stdIn.readLine();
-//        System.out.print("Port: ");
-//        int port = Integer.parseInt(stdIn.readLine());
-
         InitInterface init = new InitInterface(null);
         String IPServer = init.getIp();
         int port = Integer.parseInt(init.getPorta());
@@ -77,14 +68,58 @@ public class Client {
                     continue;
                 }
 
-                if (response instanceof LoginResponse) {
+                if(response instanceof LoginResponse) {
+                    LoginInterfaceResponse loginInterfaceResponse = new LoginInterfaceResponse(null);
                     token = ((LoginResponse) response).payload().getToken();
                     System.out.println("token was set");
                 }
-
-                if (response instanceof LogoutResponse) {
+                if(response instanceof LogoutResponse) {
+                    LogoutInterfaceResponse logoutInterfaceResponse = new LogoutInterfaceResponse(null, jsonResponse);
                     token = null;
                     break;
+                }
+                if(response instanceof CreateUserResponse) {
+                    CreateUserInterfaceResponse createUserResponse = new CreateUserInterfaceResponse(null);
+                }
+                if(response instanceof FindUserResponse) {
+                    FindUserInterfaceResponse findUserResponse = new FindUserInterfaceResponse(null, jsonResponse);
+                }
+                if(response instanceof FindUsersResponse) {
+                    FindUsersInterfaceResponse findUsersInterfaceResponse = new FindUsersInterfaceResponse(null, jsonResponse);
+                }
+                if(response instanceof UpdateUserResponse) {
+                    UpdateUserInterfaceResponse updateUserInterfaceRequest = new UpdateUserInterfaceResponse(null);
+                }
+                if(response instanceof DeleteUserResponse) {
+                    DeleteUserInterfaceResponse deleteUserInterfaceResponse = new DeleteUserInterfaceResponse(null, jsonResponse);
+                }
+                if(response instanceof CreateNodeResponse) {
+                    CreateUserInterfaceResponse createUserInterfaceResponse = new CreateUserInterfaceResponse(null);
+                }
+                if(response instanceof FindNodesResponse) {
+                    FindNodesInterfaceResponse findNodesResponse = new FindNodesInterfaceResponse(null, jsonResponse);
+                }
+                if(response instanceof UpdateNodeResponse) {
+                    UpdateNodeInterfaceResponse updateNodeInterfaceResponse = new UpdateNodeInterfaceResponse(null);
+                }
+                if(response instanceof DeleteNodeResponse) {
+                    DeleteNodeInterfaceResponse deleteNodeInterfaceResponse = new DeleteNodeInterfaceResponse(null);
+                }
+                if(response instanceof CreateSegmentResponse) {
+                    CreateUserInterfaceResponse createUserInterfaceResponse = new CreateUserInterfaceResponse(null);
+                }
+                if(response instanceof FindSegmentsResponse) {
+                    FindSegmentsInterfaceResponse findSegmentsResponse = new FindSegmentsInterfaceResponse(null, jsonResponse);
+                }
+                if(response instanceof UpdateSegmentResponse) {
+                    UpdateSegmentInterfaceResponse updateSegmentInterfaceResponse = new UpdateSegmentInterfaceResponse(null);
+                }
+                if(response instanceof DeleteSegmentResponse) {
+                    DeleteSegmentInterfaceResponse deleteSegmentInterfaceResponse = new DeleteSegmentInterfaceResponse(null);
+                }
+
+                if(response instanceof ErrorResponse) {
+                    ErrorInterfaceResponse errorInterfaceResponse = new ErrorInterfaceResponse(null, jsonResponse);
                 }
 
                 System.out.println();
@@ -96,8 +131,6 @@ public class Client {
 
     private static Request<?> requestFactory(BufferedReader stdin, String token) throws IOException {
         while (true) {
-//            System.out.print("Insira a operação: ");
-//            String operation = stdin.readLine();
             Home op = new Home(null);
             String operation = op.getOperation();
 
@@ -107,81 +140,72 @@ public class Client {
 
             switch (operation) {
                 case RequestOperations.LOGIN:
-                    Login login = new Login(null);
-                    return new LoginRequest(login.getEmail(), login.getSenha());
+                    LoginInterfaceRequest loginInterface = new LoginInterfaceRequest(null);
+                    return new LoginRequest(loginInterface.getEmail(), loginInterface.getSenha());
                 case RequestOperations.LOGOUT:
-                    return makeRequest(stdin, token, LogoutRequest.class);
+                    return new LogoutRequest(token);
                 case RequestOperations.ADMIN_BUSCAR_USUARIOS:
-                    return makeRequest(stdin, token, AdminFindUsersRequest.class);
+                    return new AdminFindUsersRequest(token);
                 case RequestOperations.ADMIN_BUSCAR_USUARIO:
-                    return makeRequest(stdin, token, AdminFindUserRequest.class);
+                    AdminFindUserInterfaceRequest adminFindUserInterface = new AdminFindUserInterfaceRequest(null);
+                    return new AdminFindUserRequest(token, adminFindUserInterface.getRegistro());
                 case RequestOperations.ADMIN_CADASTRAR_USUARIO:
-                    return makeRequest(stdin, token, AdminCreateUserRequest.class);
+                    AdminCreateUserInterfaceRequest adminCreateUserInterface = new AdminCreateUserInterfaceRequest(null);
+                    return new AdminCreateUserRequest(token, adminCreateUserInterface.getNome(),
+                            adminCreateUserInterface.getEmail(), adminCreateUserInterface.getSenha());
                 case RequestOperations.ADMIN_ATUALIZAR_USUARIO:
-                    return makeRequest(stdin, token, AdminUpdateUserRequest.class);
+                    AdminUpdateUserInterfaceRequest adminUpdateUserInterface = new AdminUpdateUserInterfaceRequest(null);
+                    return new AdminUpdateUserRequest(token, adminUpdateUserInterface.getRegistro(),
+                            adminUpdateUserInterface.getNome(), adminUpdateUserInterface.getEmail(),
+                            adminUpdateUserInterface.getSenha(), adminUpdateUserInterface.getTipo());
                 case RequestOperations.ADMIN_DELETAR_USUARIO:
-                    return makeRequest(stdin, token, AdminDeleteUserRequest.class);
+                    AdminDeleteUserInterfaceRequest adminDeleteUserInterface = new AdminDeleteUserInterfaceRequest(null);
+                    return new AdminDeleteUserRequest(token, adminDeleteUserInterface.getRegistro());
                 case RequestOperations.BUSCAR_USUARIO:
-                    return makeRequest(stdin, token, FindUserRequest.class);
+                    return new FindUserRequest(token);
                 case RequestOperations.CADASTRAR_USUARIO:
-                    return makeRequest(stdin, token, CreateUserRequest.class);
+                    CreateUserInterfaceRequest createUserInterface = new CreateUserInterfaceRequest(null);
+                    return new CreateUserRequest(token, createUserInterface.getNome(),
+                            createUserInterface.getEmail(), createUserInterface.getSenha());
                 case RequestOperations.ATUALIZAR_USUARIO:
-                    return makeRequest(stdin, token, UpdateUserRequest.class);
+                    UpdateUserInterfaceRequest updateUserInterface = new UpdateUserInterfaceRequest(null);
+                    return new UpdateUserRequest(token, updateUserInterface.getEmail(),
+                            updateUserInterface.getNome(), updateUserInterface.getSenha());
                 case RequestOperations.DELETAR_USUARIO:
-                    return makeRequest(stdin, token, DeleteUserRequest.class);
+                    DeleteUserInterfaceRequest deleteUserInterface = new DeleteUserInterfaceRequest(null);
+                    return new DeleteUserRequest(token, deleteUserInterface.getEmail(), deleteUserInterface.getSenha());
+                case RequestOperations.CADASTRAR_PDI:
+                    AdminCreateNodeInterfaceRequest createNodeInterface = new AdminCreateNodeInterfaceRequest(null);
+                    return new AdminCreateNodeRequest(token, createNodeInterface.getNome(), createNodeInterface.getCoordenadaX(),
+                            createNodeInterface.getCoordenadaY(), createNodeInterface.getAviso(), createNodeInterface.getAcessivel());
+                case RequestOperations.ATUALIZAR_PDI:
+                    AdminUpdateNodeInterfaceRequest updateNodeInterface = new AdminUpdateNodeInterfaceRequest(null);
+                    return new AdminUpdateNodeRequest(token, updateNodeInterface.getId(), updateNodeInterface.getNome(),
+                            updateNodeInterface.getCoordenadaX(), updateNodeInterface.getCoordenadaY(), updateNodeInterface.getAviso(),
+                            updateNodeInterface.getAcessivel());
+                case RequestOperations.BUSCAR_PDIS:
+                    return new AdminFindNodesRequest(token);
+                case RequestOperations.DELETAR_PDI:
+                    AdminDeleteNodeInterfaceRequest deleteNodeInterface = new AdminDeleteNodeInterfaceRequest(null);
+                    return new AdminDeleteNodeRequest(token, deleteNodeInterface.getId());
+                case RequestOperations.CADASTRAR_SEGMENTO:
+                    AdminCreateSegmentInterfaceRequest createSegmentInterface = new AdminCreateSegmentInterfaceRequest(null);
+                    return new AdminCreateSegmentRequest(token, createSegmentInterface.getPdiInicial(),
+                            createSegmentInterface.getPdiFinal(), createSegmentInterface.getAviso(),
+                            createSegmentInterface.getAcessivel());
+                case RequestOperations.ATUALIZAR_SEGMENTO:
+                    AdminUpdateSegmentInterfaceRequest updateSegmentInterface = new AdminUpdateSegmentInterfaceRequest(null);
+                    return new AdminUpdateSegmentRequest(token, updateSegmentInterface.getPdiInicial(), updateSegmentInterface.getPdiFinal(),
+                            updateSegmentInterface.getAviso(), updateSegmentInterface.getAcessivel());
+                case RequestOperations.BUSCAR_SEGMENTOS:
+                    return new AdminFindSegmentsRequest(token);
+                case RequestOperations.DELETAR_SEGMENTO:
+                    AdminDeleteSegmentInterfaceRequest deleteSegmentInterface = new AdminDeleteSegmentInterfaceRequest(null);
+                    return new AdminDeleteSegmentRequest(token, deleteSegmentInterface.getPdiInicial(), deleteSegmentInterface.getPdiFinal());
                 default:
                     System.out.println("Operação inválida. Tente novamente.");
             }
         }
-    }
-
-    private static <T> T makeRequest(BufferedReader stdin, String token, Class<T> requestClass) throws IOException {
-        for (Constructor<?> constructor : requestClass.getConstructors()) {
-            Parameter[] parameters = constructor.getParameters();
-            boolean shouldSkip = false;
-
-            for (Parameter parameter : parameters) {
-                if (parameter.getType() == Header.class) {
-                    shouldSkip = true;
-                    break;
-                }
-            }
-            if (shouldSkip) {
-                continue;
-            }
-
-            Object[] constructorArguments = new Object[parameters.length];
-            for (int i = 0; i < parameters.length; i++) {
-                if (parameters[i].getName().toLowerCase().contains("token")) {
-                    constructorArguments[i] = token;
-                    continue;
-                }
-                System.out.print(parameters[i].getName());
-                if (parameters[i].isAnnotationPresent(Optional.class)) {
-                    System.out.print(" (opcional)");
-                }
-                System.out.print(": ");
-                String line = stdin.readLine();
-                if (line.isBlank() || line.isEmpty()) {
-                    constructorArguments[i] = null;
-                } else if (parameters[i].getType() == Long.class) {
-                    constructorArguments[i] = Long.parseLong(line);
-                } else if (parameters[i].getType() == Integer.class) {
-                    constructorArguments[i] = Integer.parseInt(line);
-                } else if (parameters[i].getType() == Boolean.class) {
-                    constructorArguments[i] = Boolean.parseBoolean(line);
-                } else {
-                    constructorArguments[i] = line;
-                }
-            }
-            try {
-
-                return (T) constructor.newInstance(constructorArguments);
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        throw new RuntimeException("ERRO: Não foi possível criar a instância: " + requestClass.getName());
     }
 
     private static Response<?> handleResponse(String json, Request<?> request) {
@@ -227,6 +251,30 @@ public class Client {
             }
             if (requestClass == DeleteUserRequest.class) {
                 response = Json.fromJson(json, DeleteUserResponse.class);
+            }
+            if(requestClass == AdminCreateNodeRequest.class) {
+                response = Json.fromJson(json, CreateNodeResponse.class);
+            }
+            if(requestClass == AdminUpdateNodeRequest.class) {
+                response = Json.fromJson(json, UpdateNodeResponse.class);
+            }
+            if(requestClass == AdminFindNodesRequest.class) {
+                response = Json.fromJson(json, FindNodesResponse.class);
+            }
+            if(requestClass == AdminDeleteNodeRequest.class) {
+                response = Json.fromJson(json, DeleteNodeResponse.class);
+            }
+            if(requestClass == AdminCreateSegmentRequest.class) {
+                response = Json.fromJson(json, CreateSegmentResponse.class);
+            }
+            if(requestClass == AdminUpdateSegmentRequest.class) {
+                response = Json.fromJson(json, UpdateSegmentResponse.class);
+            }
+            if(requestClass == AdminFindSegmentsRequest.class) {
+                response = Json.fromJson(json, FindSegmentsResponse.class);
+            }
+            if(requestClass == AdminDeleteSegmentRequest.class) {
+                response = Json.fromJson(json, DeleteSegmentResponse.class);
             }
             ValidateJson.validate(response);
             return response;
