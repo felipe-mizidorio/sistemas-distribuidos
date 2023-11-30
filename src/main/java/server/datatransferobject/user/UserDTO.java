@@ -1,4 +1,4 @@
-package server.datatransferobject;
+package server.datatransferobject.user;
 
 import jakarta.validation.constraints.*;
 import lombok.Getter;

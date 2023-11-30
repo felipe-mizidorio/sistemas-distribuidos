@@ -1,4 +1,4 @@
-package server.datatransferobject;
+package server.datatransferobject.user;
 
 import lombok.Builder;
 import lombok.Getter;
