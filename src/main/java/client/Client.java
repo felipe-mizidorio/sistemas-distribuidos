@@ -94,7 +94,7 @@ public class Client {
                     DeleteUserInterfaceResponse deleteUserInterfaceResponse = new DeleteUserInterfaceResponse(null, jsonResponse);
                 }
                 if(response instanceof CreateNodeResponse) {
-                    CreateUserInterfaceResponse createUserInterfaceResponse = new CreateUserInterfaceResponse(null);
+                    CreateNodeInterfaceResponse createNodeInterfaceResponse = new CreateNodeInterfaceResponse(null);
                 }
                 if(response instanceof FindNodesResponse) {
                     FindNodesInterfaceResponse findNodesResponse = new FindNodesInterfaceResponse(null, jsonResponse);
@@ -106,7 +106,7 @@ public class Client {
                     DeleteNodeInterfaceResponse deleteNodeInterfaceResponse = new DeleteNodeInterfaceResponse(null);
                 }
                 if(response instanceof CreateSegmentResponse) {
-                    CreateUserInterfaceResponse createUserInterfaceResponse = new CreateUserInterfaceResponse(null);
+                    CreateSegmentInterfaceResponse createSegmentInterfaceResponse = new CreateSegmentInterfaceResponse(null);
                 }
                 if(response instanceof FindSegmentsResponse) {
                     FindSegmentsInterfaceResponse findSegmentsResponse = new FindSegmentsInterfaceResponse(null, jsonResponse);
@@ -116,6 +116,9 @@ public class Client {
                 }
                 if(response instanceof DeleteSegmentResponse) {
                     DeleteSegmentInterfaceResponse deleteSegmentInterfaceResponse = new DeleteSegmentInterfaceResponse(null);
+                }
+                if(response instanceof FindRouteResponse) {
+                    FindRouteInterfaceResponse findRouteInterfaceResponse = new FindRouteInterfaceResponse(null, jsonResponse);
                 }
 
                 if(response instanceof ErrorResponse) {
@@ -181,8 +184,7 @@ public class Client {
                 case RequestOperations.ATUALIZAR_PDI:
                     AdminUpdateNodeInterfaceRequest updateNodeInterface = new AdminUpdateNodeInterfaceRequest(null);
                     return new AdminUpdateNodeRequest(token, updateNodeInterface.getId(), updateNodeInterface.getNome(),
-                            updateNodeInterface.getCoordenadaX(), updateNodeInterface.getCoordenadaY(), updateNodeInterface.getAviso(),
-                            updateNodeInterface.getAcessivel());
+                            updateNodeInterface.getAviso(), updateNodeInterface.getAcessivel());
                 case RequestOperations.BUSCAR_PDIS:
                     return new AdminFindNodesRequest(token);
                 case RequestOperations.DELETAR_PDI:
@@ -202,6 +204,9 @@ public class Client {
                 case RequestOperations.DELETAR_SEGMENTO:
                     AdminDeleteSegmentInterfaceRequest deleteSegmentInterface = new AdminDeleteSegmentInterfaceRequest(null);
                     return new AdminDeleteSegmentRequest(token, deleteSegmentInterface.getPdiInicial(), deleteSegmentInterface.getPdiFinal());
+                case RequestOperations.BUSCAR_ROTA:
+                    FindRouteInterfaceRequest findRouteInterface = new FindRouteInterfaceRequest(null);
+                    return new FindRouteRequest(token, findRouteInterface.getPdiInicial(), findRouteInterface.getPdiFinal());
                 default:
                     System.out.println("Operação inválida. Tente novamente.");
             }
@@ -275,6 +280,9 @@ public class Client {
             }
             if(requestClass == AdminDeleteSegmentRequest.class) {
                 response = Json.fromJson(json, DeleteSegmentResponse.class);
+            }
+            if(requestClass == FindRouteRequest.class) {
+                response = Json.fromJson(json, FindRouteResponse.class);
             }
             ValidateJson.validate(response);
             return response;
