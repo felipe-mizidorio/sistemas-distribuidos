@@ -13,9 +13,10 @@ public class AdminUpdateUserInterfaceRequest extends JDialog {
     private JTextField nomeField;
     private JTextField emailField;
     private JTextField senhaField;
-    private JTextField tipoField;
     private JButton OKButton;
     private JTextField registroField;
+    private JRadioButton trueRadioButton;
+    private JRadioButton falseRadioButton;
 
     @Getter
     private Long registro;
@@ -47,11 +48,7 @@ public class AdminUpdateUserInterfaceRequest extends JDialog {
                 nome = verify(nomeField.getText());
                 email = verify(emailField.getText());
                 senha = verify(senhaField.getText());
-                if(verify(tipoField.getText()) == null) {
-                    tipo = null;
-                } else {
-                    tipo = Boolean.parseBoolean(tipoField.getText());
-                }
+                tipo = trueRadioButton.isSelected();
                 dispose();
             }
         });

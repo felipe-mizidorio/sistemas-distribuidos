@@ -30,8 +30,16 @@ public class AdminDeleteSegmentInterfaceRequest extends JDialog {
         OKButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                pdiInicial = Long.parseLong(verify(pdiInicialField.getText()));
-                pdiFinal = Long.parseLong(verify(pdiFinalField.getText()));
+                if(verify(pdiInicialField.getText()) == null) {
+                    pdiInicial = null;
+                } else {
+                    pdiInicial = Long.parseLong(pdiInicialField.getText());
+                }
+                if(verify(pdiFinalField.getText()) == null) {
+                    pdiFinal = null;
+                } else {
+                    pdiFinal = Long.parseLong(pdiFinalField.getText());
+                }
                 dispose();
             }
         });

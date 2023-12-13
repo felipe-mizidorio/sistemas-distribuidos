@@ -26,7 +26,11 @@ public class AdminDeleteNodeInterfaceRequest extends JDialog{
         OKButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                id = Long.parseLong(verify(idField.getText()));
+                if(verify(idField.getText()) == null) {
+                    id = null;
+                } else {
+                    id = Long.parseLong(idField.getText());
+                }
                 dispose();
             }
         });

@@ -13,17 +13,18 @@ public class AdminCreateNodeInterfaceRequest extends JDialog {
     private JTextField xField;
     private JTextField yField;
     private JTextField avisoField;
-    private JTextField acessivelField;
     private JButton OKButton;
+    private JRadioButton trueRadioButtonAcessivel;
+    private JRadioButton falseRadioButtonAcessivel;
 
     @Getter
     private String nome;
 
     @Getter
-    private Integer coordenadaX;
+    private Double coordenadaX;
 
     @Getter
-    private Integer coordenadaY;
+    private Double coordenadaY;
 
     @Getter
     private String aviso;
@@ -35,7 +36,7 @@ public class AdminCreateNodeInterfaceRequest extends JDialog {
         super(parent);
         setTitle("Admin Create Node Request");
         setContentPane(createNodeRequest);
-        setMinimumSize(new Dimension(400, 200));
+        setMinimumSize(new Dimension(400, 275));
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -43,10 +44,18 @@ public class AdminCreateNodeInterfaceRequest extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 nome = verify(nomeField.getText());
-                coordenadaX = Integer.parseInt(verify(xField.getText()));
-                coordenadaY = Integer.parseInt(verify(yField.getText()));
+                if(verify(xField.getText()) == null) {
+                    coordenadaX = null;
+                } else {
+                    coordenadaX = Double.parseDouble(xField.getText());
+                }
+                if(verify(yField.getText()) == null) {
+                    coordenadaY = null;
+                } else {
+                    coordenadaY = Double.parseDouble(yField.getText());
+                }
                 aviso = avisoField.getText();
-                acessivel = Boolean.valueOf(verify(acessivelField.getText()));
+                acessivel = trueRadioButtonAcessivel.isSelected();
                 dispose();
             }
         });

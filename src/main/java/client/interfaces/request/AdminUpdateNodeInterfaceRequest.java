@@ -10,24 +10,17 @@ import java.awt.event.ActionListener;
 public class AdminUpdateNodeInterfaceRequest extends JDialog {
     private JPanel updateNodeRequest;
     private JTextField nomeField;
-    private JTextField xField;
-    private JTextField yField;
     private JTextField avisoField;
-    private JTextField acessivelField;
     private JButton OKButton;
     private JTextField idField;
+    private JRadioButton trueRadioButton;
+    private JRadioButton falseRadioButton;
 
     @Getter
     private Long id;
 
     @Getter
     private String nome;
-
-    @Getter
-    private Integer coordenadaX;
-
-    @Getter
-    private Integer coordenadaY;
 
     @Getter
     private String aviso;
@@ -46,12 +39,14 @@ public class AdminUpdateNodeInterfaceRequest extends JDialog {
         OKButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                id = Long.parseLong(verify(idField.getText()));
+                if(verify(idField.getText()) == null) {
+                    id = null;
+                } else {
+                    id = Long.parseLong(idField.getText());
+                }
                 nome = verify(nomeField.getText());
-                coordenadaX = Integer.parseInt(verify(xField.getText()));
-                coordenadaY = Integer.parseInt(verify(yField.getText()));
                 aviso = avisoField.getText();
-                acessivel = Boolean.valueOf(verify(acessivelField.getText()));
+                acessivel = trueRadioButton.isSelected();
                 dispose();
             }
         });

@@ -12,8 +12,9 @@ public class AdminUpdateSegmentInterfaceRequest extends JDialog {
     private JTextField pdiInicialField;
     private JTextField pdiFinalField;
     private JTextField avisoField;
-    private JTextField acessivelField;
     private JButton OKButton;
+    private JRadioButton trueRadioButton;
+    private JRadioButton falseRadioButton;
 
     @Getter
     private Long pdiInicial;
@@ -38,10 +39,18 @@ public class AdminUpdateSegmentInterfaceRequest extends JDialog {
         OKButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                pdiInicial = Long.parseLong(verify(pdiInicialField.getText()));
-                pdiFinal = Long.parseLong(verify(pdiFinalField.getText()));
-                aviso = verify(avisoField.getText());
-                acessivel = Boolean.parseBoolean(verify(acessivelField.getText()));
+                if(verify(pdiInicialField.getText()) == null) {
+                    pdiInicial = null;
+                } else {
+                    pdiInicial = Long.parseLong(pdiInicialField.getText());
+                }
+                if(verify(pdiFinalField.getText()) == null) {
+                    pdiFinal = null;
+                } else {
+                    pdiFinal = Long.parseLong(pdiFinalField.getText());
+                }
+                aviso = avisoField.getText();
+                acessivel = trueRadioButton.isSelected();
                 dispose();
             }
         });
