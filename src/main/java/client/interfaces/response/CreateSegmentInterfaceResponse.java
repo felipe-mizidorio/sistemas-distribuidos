@@ -13,7 +13,7 @@ public class CreateSegmentInterfaceResponse extends JDialog {
         super(parent);
         setTitle("Create Segment Response");
         setContentPane(createSegmentResponse);
-        setMinimumSize(new Dimension(250, 100));
+        setMinimumSize(new Dimension(280, 100));
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

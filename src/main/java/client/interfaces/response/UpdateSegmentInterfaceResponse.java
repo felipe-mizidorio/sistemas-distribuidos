@@ -13,7 +13,7 @@ public class UpdateSegmentInterfaceResponse extends JDialog {
         super(parent);
         setTitle("Update Segment Response");
         setContentPane(updateSegmentResponse);
-        setMinimumSize(new Dimension(250, 100));
+        setMinimumSize(new Dimension(320, 100));
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

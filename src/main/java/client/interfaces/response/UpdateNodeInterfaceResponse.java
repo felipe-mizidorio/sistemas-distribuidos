@@ -13,7 +13,7 @@ public class UpdateNodeInterfaceResponse extends JDialog {
         super(parent);
         setTitle("Update Node Response");
         setContentPane(updateNodeResponse);
-        setMinimumSize(new Dimension(250, 100));
+        setMinimumSize(new Dimension(420, 100));
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

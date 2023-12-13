@@ -2,6 +2,7 @@ package client.interfaces.response;
 
 import json.Json;
 import protocol.response.DeleteUserResponse;
+import protocol.response.ErrorResponse;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +18,10 @@ public class DeleteUserInterfaceResponse extends JDialog{
         super(parent);
         setTitle("Delete User Response");
         setContentPane(deleteUserResponse);
-        setMinimumSize(new Dimension(250, 100));
+        setMinimumSize(new Dimension(
+                Json.fromJson(json, DeleteUserResponse.class).payload().getMensagem().length()*10, 100
+                )
+        );
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

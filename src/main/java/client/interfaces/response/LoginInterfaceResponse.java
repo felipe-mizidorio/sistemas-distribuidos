@@ -15,7 +15,7 @@ public class LoginInterfaceResponse extends JDialog {
         super(parent);
         setTitle("Login Response");
         setContentPane(loginResponse);
-        setMinimumSize(new Dimension(250, 100));
+        setMinimumSize(new Dimension(270, 100));
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

@@ -13,7 +13,7 @@ public class DeleteNodeInterfaceResponse extends JDialog {
         super(parent);
         setTitle("Delete Node Response");
         setContentPane(deleteNodeResponse);
-        setMinimumSize(new Dimension(250, 100));
+        setMinimumSize(new Dimension(400, 100));
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

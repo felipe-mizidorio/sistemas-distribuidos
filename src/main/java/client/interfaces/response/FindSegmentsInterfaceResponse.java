@@ -65,8 +65,8 @@ public class FindSegmentsInterfaceResponse extends JDialog {
     }
 
     public void updateValues(SegmentDTO segment) {
-        pdiInicialLabel.setText(String.valueOf(segment.getPdiInicial()));
-        pdiFinalLabel.setText(String.valueOf(segment.getPdiFinal()));
+        pdiInicialLabel.setText(String.valueOf(segment.getPdi_inicial()));
+        pdiFinalLabel.setText(String.valueOf(segment.getPdi_final()));
         distanciaLabel.setText(String.valueOf(segment.getDistancia()));
         avisoLabel.setText(segment.getAviso());
         acessivelLabel.setText(String.valueOf(segment.getAcessivel()));

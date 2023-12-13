@@ -1,6 +1,7 @@
 package client.interfaces.response;
 
 import json.Json;
+import org.hibernate.Length;
 import protocol.response.ErrorResponse;
 
 import javax.swing.*;
@@ -18,12 +19,15 @@ public class ErrorInterfaceResponse extends JDialog {
         super(parent);
         setTitle("Error Response");
         setContentPane(errorResponsePanel);
-        setMinimumSize(new Dimension(400, 200));
+        setMinimumSize(new Dimension(
+                Json.fromJson(json, ErrorResponse.class).payload().getMensagem().length()*10, 150
+                )
+        );
         setModal(true);
         setLocationRelativeTo(parent);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         code.setText(String.valueOf(Json.fromJson(json, ErrorResponse.class).payload().getCode()));
         mensagem.setText(Json.fromJson(json, ErrorResponse.class).payload().getMensagem());
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         OKButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

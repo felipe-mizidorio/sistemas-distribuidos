@@ -13,7 +13,7 @@ public class DeleteSegmentInterfaceResponse extends JDialog {
         super(parent);
         setTitle("Delete Segment Response");
         setContentPane(deleteSegmentResponse);
-        setMinimumSize(new Dimension(250, 100));
+        setMinimumSize(new Dimension(300, 100));
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

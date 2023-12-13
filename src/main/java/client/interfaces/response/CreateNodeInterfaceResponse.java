@@ -13,7 +13,7 @@ public class CreateNodeInterfaceResponse extends JDialog {
         super(parent);
         setTitle("Create Node Response");
         setContentPane(createNodeResponse);
-        setMinimumSize(new Dimension(250, 100));
+        setMinimumSize(new Dimension(380, 100));
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

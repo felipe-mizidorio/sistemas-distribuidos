@@ -13,7 +13,7 @@ public class CreateUserInterfaceResponse extends JDialog {
         super(parent);
         setTitle("Create User Response");
         setContentPane(createUserResponse);
-        setMinimumSize(new Dimension(250, 100));
+        setMinimumSize(new Dimension(270, 100));
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

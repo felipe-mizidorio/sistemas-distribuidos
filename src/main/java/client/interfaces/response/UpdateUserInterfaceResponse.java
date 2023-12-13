@@ -13,7 +13,7 @@ public class UpdateUserInterfaceResponse extends JDialog {
         super(parent);
         setTitle("Update User Response");
         setContentPane(updateUser);
-        setMinimumSize(new Dimension(250, 100));
+        setMinimumSize(new Dimension(300, 100));
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
