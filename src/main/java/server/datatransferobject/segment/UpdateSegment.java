@@ -6,21 +6,18 @@ import lombok.Getter;
 @Getter
 public class UpdateSegment {
     private final long registroSender;
-    private final Long pdiInicial;
-    private final Long pdiFinal;
-    private final Float distancia;
+    private final Long pdi_inicial;
+    private final Long pdi_final;
     private final String aviso;
     private final Boolean acessivel;
 
     @Builder
-    public UpdateSegment(long registroSender, Long pdiInicial, Long pdiFinal,
-                         Float distancia, String aviso, Boolean acessivel) {
+    public UpdateSegment(long registroSender, Long pdi_inicial, Long pdi_final,
+                         String aviso, Boolean acessivel) {
         this.registroSender = registroSender;
-        this.pdiInicial = pdiInicial;
-        this.pdiFinal = pdiFinal;
-        this.distancia = distancia;
+        this.pdi_inicial = pdi_inicial;
+        this.pdi_final = pdi_final;
         this.aviso = aviso;
         this.acessivel = acessivel;
     }
-
 }

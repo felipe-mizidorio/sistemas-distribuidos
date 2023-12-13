@@ -13,16 +13,16 @@ public class DeleteSegment {
     private final Boolean isSenderAdmin;
 
     @NonNull
-    private final Long pdiInicial;
+    private final Long pdi_inicial;
 
     @NonNull
-    private final Long pdiFinal;
+    private final Long pdi_final;
 
     @Builder
-    public DeleteSegment(@NonNull Long registroSender, @NonNull Boolean isSenderAdmin, Long pdiInicial, Long pdiFinal) {
+    public DeleteSegment(Long registroSender, Boolean isSenderAdmin, Long pdi_inicial, Long pdi_final) {
         this.registroSender = registroSender;
         this.isSenderAdmin = isSenderAdmin;
-        this.pdiInicial = pdiInicial;
-        this.pdiFinal = pdiFinal;
+        this.pdi_inicial = pdi_inicial;
+        this.pdi_final = pdi_final;
     }
 }
