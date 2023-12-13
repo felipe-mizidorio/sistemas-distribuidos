@@ -8,14 +8,14 @@ import protocol.request.RequestOperations;
 import protocol.request.header.Header;
 
 @Getter
-public class AdminDeleteSegmentRequest extends Request<AdminDeleteSegmentRequest.Payload> {
+public class FindRouteRequest extends Request<FindRouteRequest.Payload> {
 
     @NotNull(message = "payload não pode ser nulo")
     @Valid
-    private final AdminDeleteSegmentRequest.Payload payload;
+    private final FindRouteRequest.Payload payload;
 
-    public AdminDeleteSegmentRequest(String token, Long pdi_inicial, Long pdi_final) {
-        super(new Header(RequestOperations.DELETAR_SEGMENTO, token));
+    public FindRouteRequest(String token, Long pdi_inicial, Long pdi_final) {
+        super(new Header(RequestOperations.BUSCAR_ROTA, token));
         payload = new Payload(pdi_inicial, pdi_final);
     }
 
@@ -23,7 +23,6 @@ public class AdminDeleteSegmentRequest extends Request<AdminDeleteSegmentRequest
     public static class Payload {
         @NotNull(message = "campo pdi_inicial não pode estar nulo.")
         private final Long pdi_inicial;
-
         @NotNull(message = "campo pdi_final não pode estar nulo.")
         private final Long pdi_final;
 

@@ -16,17 +16,20 @@ public class AdminCreateNodeRequest extends Request<AdminCreateNodeRequest.Paylo
     @Valid
     private final AdminCreateNodeRequest.Payload payload;
 
-    public AdminCreateNodeRequest(String token, String nome, int x, int y, String aviso, boolean acessivel) {
+    public AdminCreateNodeRequest(String token, String nome, Double x, Double y, String aviso, Boolean acessivel) {
         super(new Header(RequestOperations.CADASTRAR_PDI, token));
         payload = new Payload(nome, new Posicao(x, y), aviso, acessivel);
     }
 
     @Getter
     public static class Posicao {
-        private final int x;
-        private final int y;
+        @NotNull(message = "campo x não pode estar vazio.")
+        private final Double x;
 
-        public Posicao(int x, int y) {
+        @NotNull(message = "campo y não pode estar vazio.")
+        private final Double y;
+
+        public Posicao(Double x, Double y) {
             this.x = x;
             this.y = y;
         }
@@ -46,13 +49,14 @@ public class AdminCreateNodeRequest extends Request<AdminCreateNodeRequest.Paylo
         @Size(min = 3, max = 255, message = "campo nome deve conter entre 3 e 255 caracteres.")
         private final String nome;
 
-        @NotNull(message = "campo posicao não pode estar vazio.")
+        @NotNull(message = "campo posicao não pode estar nulo.")
+        @Valid
         private final Posicao posicao;
 
-        @NotBlank(message = "campo aviso não pode estar vazio.")
+        @NotNull(message = "campo aviso não pode estar nulo.")
         private final String aviso;
 
-        @NotNull(message = "campo acessivel não pode estar vazio.")
+        @NotNull(message = "campo acessivel não pode estar nulo.")
         private final Boolean acessivel;
 
         public Payload(String nome, Posicao posicao, String aviso, Boolean acessivel) {

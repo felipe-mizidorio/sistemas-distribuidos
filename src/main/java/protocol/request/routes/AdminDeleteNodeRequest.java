@@ -22,8 +22,7 @@ public class AdminDeleteNodeRequest extends Request<AdminDeleteNodeRequest.Paylo
 
     @Getter
     public static class Payload {
-        @NotNull
-        @NotBlank(message = "campo id não pode estar vazio.")
+        @NotNull(message = "campo id não pode estar nulo.")
         private Long id;
 
         public Payload(Long id) {
