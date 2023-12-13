@@ -22,8 +22,6 @@ public class UpdateNodeProcess extends ProcessTemplate {
                 .registroSender(idSender)
                 .id(payload.getId())
                 .nome(payload.getNome())
-                .posicaoX(payload.getPosicao().x())
-                .posicaoY(payload.getPosicao().y())
                 .aviso(payload.getAviso())
                 .acessivel(payload.getAcessivel())
                 .build();

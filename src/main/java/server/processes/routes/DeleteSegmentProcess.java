@@ -25,12 +25,18 @@ public class DeleteSegmentProcess extends ProcessTemplate {
         var segment = DeleteSegment.builder()
                 .registroSender(idSender)
                 .isSenderAdmin(isAdmin)
-                .pdiInicial(payload.getPdiInicial())
-                .pdiFinal(payload.getPdiFinal())
+                .pdi_inicial(payload.getPdi_inicial())
+                .pdi_final(payload.getPdi_final())
+                .build();
+        var inverseSegment = DeleteSegment.builder()
+                .registroSender(idSender)
+                .isSenderAdmin(isAdmin)
+                .pdi_inicial(payload.getPdi_final())
+                .pdi_final(payload.getPdi_inicial())
                 .build();
         SegmentController segmentController = SegmentController.getInstance();
-        segmentController.findSegment(segment.getPdiInicial(), segment.getPdiFinal());
         segmentController.deleteSegment(segment);
-        return new DeleteSegmentResponse(segment.getPdiInicial(), segment.getPdiFinal());
+        segmentController.deleteSegment(inverseSegment);
+        return new DeleteSegmentResponse(segment.getPdi_inicial(), segment.getPdi_final());
     }
 }

@@ -1,6 +1,6 @@
 package server.processes.routes;
 
-import euclidean.EuclideanDistance;
+import calculus.euclidean.EuclideanDistance;
 import jwt.Jwt;
 import jwt.validation.ValidateAdmin;
 import protocol.request.routes.AdminUpdateSegmentRequest;
@@ -8,6 +8,7 @@ import protocol.response.Response;
 import protocol.response.routes.UpdateSegmentResponse;
 import server.controller.NodeController;
 import server.controller.SegmentController;
+import server.datatransferobject.node.NodeDTO;
 import server.datatransferobject.segment.SegmentDTO;
 import server.datatransferobject.segment.UpdateSegment;
 import server.exceptions.ServerResponseException;
@@ -20,18 +21,25 @@ public class UpdateSegmentProcess extends ProcessTemplate {
         ValidateAdmin.validate(token);
         var payload = AdminUpdateSegmentRequestReceived.getPayload();
         long idSender = Jwt.getId(AdminUpdateSegmentRequestReceived.getHeader().token());
-        var pdiInicial = NodeController.getInstance().findNode(payload.getPdiInicial());
-        var pdiFinal = NodeController.getInstance().findNode(payload.getPdiFinal());
-        var user = UpdateSegment.builder()
+        NodeDTO pdiInicial = NodeController.getInstance().findNode(payload.getPdi_inicial());
+        NodeDTO pdiFinal = NodeController.getInstance().findNode(payload.getPdi_final());
+        var segment = UpdateSegment.builder()
                 .registroSender(idSender)
-                .pdiInicial(payload.getPdiInicial())
-                .pdiFinal(payload.getPdiFinal())
-                .distancia(EuclideanDistance.calculateDistance(pdiInicial.getPosicao().x(), pdiInicial.getPosicao().y(), pdiFinal.getPosicao().x(), pdiFinal.getPosicao().y()))
+                .pdi_inicial(payload.getPdi_inicial())
+                .pdi_final(payload.getPdi_final())
                 .aviso(payload.getAviso())
                 .acessivel(payload.getAcessivel())
                 .build();
+        var inverseSegment = UpdateSegment.builder()
+                .registroSender(idSender)
+                .pdi_inicial(payload.getPdi_final())
+                .pdi_final(payload.getPdi_inicial())
+                .aviso(null)
+                .acessivel(payload.getAcessivel())
+                .build();
         SegmentController controller = SegmentController.getInstance();
-        SegmentDTO updatedSegment = controller.updateSegment(user);
+        SegmentDTO updatedSegment = controller.updateSegment(segment);
+        controller.updateSegment(inverseSegment);
         return new UpdateSegmentResponse(updatedSegment);
     }
 }

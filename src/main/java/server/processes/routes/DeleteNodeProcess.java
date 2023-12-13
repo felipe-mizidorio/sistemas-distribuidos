@@ -14,7 +14,7 @@ import server.processes.ProcessTemplate;
 public class DeleteNodeProcess extends ProcessTemplate {
     public Response<?> execute(String json) throws ServerResponseException {
         var adminDeleteNodeRequestReceived = buildRequest(json, AdminDeleteNodeRequest.class);
-        String token = adminDeleteNodeRequestReceived.getHeader().token();
+        var token = adminDeleteNodeRequestReceived.getHeader().token();
         ValidateToken.validate(token);
         ValidateAdmin.validate(token);
         var payload = adminDeleteNodeRequestReceived.getPayload();
