@@ -1,10 +1,14 @@
 package protocol.response.routes;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import protocol.response.Response;
 
 public class DeleteSegmentResponse implements Response<DeleteSegmentResponse.Payload>{
+    @Valid
+    @NotNull
     private final DeleteSegmentResponse.Payload payload;
 
     public DeleteSegmentResponse(Long pdiInicial, Long pdiFinal) {
