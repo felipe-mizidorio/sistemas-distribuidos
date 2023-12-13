@@ -32,7 +32,7 @@ public class SegmentRepository {
                     transaction.rollback();
                 }
                 throw new BadRequestException("Segmento entre os pontos " +
-                        newInstance.getPdiInicial() + " e " + newInstance.getPdiFinal() + " já existe.");
+                        newInstance.getPdi_inicial() + " e " + newInstance.getPdi_final() + " já existe.");
             }
         }
     }
@@ -54,7 +54,7 @@ public class SegmentRepository {
                     tx.rollback();
                 }
                 throw new BadRequestException("Segmento entre os pontos " +
-                        instance.getPdiInicial() + " e " + instance.getPdiFinal() + " já existe.");
+                        instance.getPdi_inicial() + " e " + instance.getPdi_final() + " já existe.");
             }
             return segment;
         }
@@ -62,10 +62,19 @@ public class SegmentRepository {
 
     public Optional<Segment> find(Long pdiInicial, Long pdiFinal) {
         try(Session session = sessionFactory.openSession()) {
-            String query = "FROM Segment WHERE pdiInicial = :pdiInicial AND pdiFinal = :pdiFinal";
+            String query = "FROM Segment WHERE pdi_inicial = :pdiInicial AND pdi_final = :pdiFinal";
             return session.createQuery(query, Segment.class)
                     .setParameter("pdiInicial", pdiInicial)
                     .setParameter("pdiFinal", pdiFinal)
+                    .uniqueResultOptional();
+        }
+    }
+
+    public Optional<Segment> find(Long idSegment) {
+        try(Session session = sessionFactory.openSession()) {
+            String query = "FROM Segment WHERE id = :idSegment";
+            return session.createQuery(query, Segment.class)
+                    .setParameter("idSegment", idSegment)
                     .uniqueResultOptional();
         }
     }
@@ -83,5 +92,14 @@ public class SegmentRepository {
                     .setParameter("id", segment.getId())
                     .executeUpdate();
         });
+    }
+
+    public List<Segment> findNeighborsNodeSegments(Long pdi) {
+        try(Session session = sessionFactory.openSession()) {
+            String query = "FROM Segment WHERE pdi_inicial = :pdi AND acessivel = true";
+            return session.createQuery(query, Segment.class)
+                    .setParameter("pdi", pdi)
+                    .getResultList();
+        }
     }
 }

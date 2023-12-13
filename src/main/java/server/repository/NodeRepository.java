@@ -7,6 +7,7 @@ import json.validation.ConstraintViolated;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import server.controller.SegmentController;
 import server.entity.Node;
 import server.exceptions.BadRequestException;
 import server.exceptions.ResourceNotFoundException;
@@ -46,15 +47,6 @@ public class NodeRepository {
                     .loadOptional(idNode)
                     .orElseThrow(() -> new ResourceNotFoundException("Ponto com id " + idNode + " não existe."));
 
-
-            var nodeWithName = session.bySimpleNaturalId(Node.class)
-                    .loadOptional(instance.getNome());
-
-            if (nodeWithName.isPresent() && !Objects.equals(nodeWithName.get().getId(), instance.getId())) {
-                throw new BadRequestException("Ponto com id " + nodeWithName.get().getNome() + " já existe.");
-            }
-
-
             Transaction tx = null;
             try {
                 tx = session.beginTransaction();
@@ -65,7 +57,7 @@ public class NodeRepository {
                 if (tx != null) {
                     tx.rollback();
                 }
-                throw new BadRequestException("Node com nome " + node.getNome() + " já existe.");
+                throw new BadRequestException("Falha ao criar o ponto " + node.getNome() + ".");
             }
             return node;
         }
