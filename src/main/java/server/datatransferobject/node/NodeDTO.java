@@ -13,7 +13,7 @@ public class NodeDTO {
     @Size(min = 3, max = 255)
     private final String nome;
 
-    @NotBlank
+    @NotNull
     private final Posicao posicao;
 
     private final String aviso;
@@ -21,7 +21,7 @@ public class NodeDTO {
     @NotNull
     private final Boolean acessivel;
 
-    public NodeDTO(Long id, String nome, int posicaoX, int posicaoY, String aviso, Boolean acessivel) {
+    public NodeDTO(Long id, String nome, Double posicaoX, Double posicaoY, String aviso, Boolean acessivel) {
         this.id = id;
         this.nome = nome;
         this.posicao = new Posicao(posicaoX, posicaoY);
@@ -48,7 +48,7 @@ public class NodeDTO {
                 '}';
     }
 
-    public record Posicao(int x, int y) {
+    public record Posicao(Double x, Double y) {
         @Override
         public String toString() {
             return "Posicao{" +

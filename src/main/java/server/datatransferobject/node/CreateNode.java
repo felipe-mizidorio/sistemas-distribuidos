@@ -11,14 +11,14 @@ public class CreateNode {
     private final Boolean acessivel;
 
     @Builder
-    public CreateNode(String nome, int posicaoX, int posicaoY, String aviso, Boolean acessivel) {
+    public CreateNode(String nome, Double posicaoX, Double posicaoY, String aviso, Boolean acessivel) {
         this.nome = nome;
         this.posicao = new Posicao(posicaoX, posicaoY);
         this.aviso = aviso;
         this.acessivel = acessivel;
     }
 
-    public record Posicao(int x, int y) {
+    public record Posicao(Double x, Double y) {
         @Override
         public String toString() {
             return "Posicao{" +
