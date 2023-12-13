@@ -20,19 +20,19 @@ import server.datatransferobject.node.UpdateNode;
 public class Node {
     @NotNull
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @NotNull
     @Size(min = 3, max = 255)
-    @NaturalId(mutable = true)
+    @Column(unique = true)
     private String nome;
 
     @NotNull
-    private Integer posicaoX;
+    private Double posicaoX;
 
     @NotNull
-    private Integer posicaoY;
+    private Double posicaoY;
 
     private String aviso;
 
@@ -56,8 +56,6 @@ public class Node {
     public static Node of(UpdateNode node) {
         var entity = new Node();
         entity.setNome(node.getNome());
-        entity.setPosicaoX(node.getPosicao().x());
-        entity.setPosicaoY(node.getPosicao().y());
         entity.setAviso(node.getAviso());
         entity.setAcessivel(node.getAcessivel());
         return entity;
