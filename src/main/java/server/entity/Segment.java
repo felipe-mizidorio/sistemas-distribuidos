@@ -12,9 +12,7 @@ import server.datatransferobject.segment.CreateSegment;
 import server.datatransferobject.segment.UpdateSegment;
 
 @Entity
-@Table(name = "Segments", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"pdiInicial", "pdiFinal"}),
-        @UniqueConstraint(columnNames = {"pdiFinal", "pdiInicial"})})
+@Table(name = "Segments", uniqueConstraints = @UniqueConstraint(columnNames = {"pdi_inicial", "pdi_final"}))
 @Getter
 @Setter
 @ToString
@@ -22,17 +20,17 @@ import server.datatransferobject.segment.UpdateSegment;
 public class Segment {
     @NotNull
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @NotNull
-    private Long pdiInicial;
+    private Long pdi_inicial;
 
     @NotNull
-    private Long pdiFinal;
+    private Long pdi_final;
 
     @NotNull
-    private Float distancia;
+    private Double distancia;
 
     private String aviso;
 
@@ -45,8 +43,8 @@ public class Segment {
 
     public static Segment of(CreateSegment segment) {
         var entity = new Segment();
-        entity.setPdiInicial(segment.getPdiInicial());
-        entity.setPdiFinal(segment.getPdiFinal());
+        entity.setPdi_inicial(segment.getPdi_inicial());
+        entity.setPdi_final(segment.getPdi_final());
         entity.setDistancia(segment.getDistancia());
         entity.setAviso(segment.getAviso());
         entity.setAcessivel(segment.getAcessivel());
@@ -55,20 +53,19 @@ public class Segment {
 
     public static Segment of(UpdateSegment segment) {
         var entity = new Segment();
-        entity.setPdiInicial(segment.getPdiInicial());
-        entity.setPdiFinal(segment.getPdiFinal());
-        entity.setDistancia(segment.getDistancia());
+        entity.setPdi_inicial(segment.getPdi_inicial());
+        entity.setPdi_final(segment.getPdi_final());
         entity.setAviso(segment.getAviso());
         entity.setAcessivel(segment.getAcessivel());
         return entity;
     }
 
     public void update(Segment info) {
-        if(info.getPdiInicial() != null) {
-            setPdiFinal(info.getPdiInicial());
+        if(info.getPdi_inicial() != null) {
+            setPdi_final(info.getPdi_inicial());
         }
-        if(info.getPdiFinal() != null) {
-            setPdiFinal(info.getPdiFinal());
+        if(info.getPdi_final() != null) {
+            setPdi_final(info.getPdi_final());
         }
         if(info.getDistancia() != null) {
             setDistancia(info.getDistancia());
