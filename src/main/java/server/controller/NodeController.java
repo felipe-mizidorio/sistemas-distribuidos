@@ -4,10 +4,14 @@ import server.datatransferobject.node.CreateNode;
 import server.datatransferobject.node.DeleteNode;
 import server.datatransferobject.node.NodeDTO;
 import server.datatransferobject.node.UpdateNode;
+import server.datatransferobject.segment.DeleteSegment;
+import server.datatransferobject.segment.SegmentDTO;
 import server.entity.Node;
+import server.entity.Segment;
 import server.exceptions.ResourceNotFoundException;
 import server.exceptions.ServerResponseException;
 import server.repository.NodeRepository;
+import server.repository.SegmentRepository;
 
 import java.util.List;
 
@@ -47,7 +51,17 @@ public class NodeController {
         return NodeDTO.of(entity);
     }
 
-    public void deleteNode(DeleteNode node) {
-
+    public void deleteNode(DeleteNode node) throws ResourceNotFoundException {
+        repository.delete(node.getNodeToDelete());
+        var controller = SegmentController.getInstance();
+        List<SegmentDTO> segmentList = controller.findSegments();
+        if(!segmentList.isEmpty()) {
+            for(SegmentDTO segment : segmentList) {
+                if(node.getNodeToDelete().equals(segment.getPdi_inicial()) || node.getNodeToDelete().equals(segment.getPdi_final())) {
+                    Long id = controller.findSegment(segment.getPdi_inicial(), segment.getPdi_final()).getId();
+                    controller.deleteSegment(id);
+                }
+            }
+        }
     }
 }
