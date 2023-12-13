@@ -22,5 +22,5 @@ public interface RequestOperations {
     String ATUALIZAR_SEGMENTO = "ATUALIZAR_SEGMENTO";
     String DELETAR_SEGMENTO = "DELETAR_SEGMENTO";
 
-
+    String BUSCAR_ROTA = "BUSCAR_ROTA";
 }
