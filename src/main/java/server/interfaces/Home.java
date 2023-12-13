@@ -1,43 +1,41 @@
 package server.interfaces;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
-public class Home extends JDialog {
+public class Home extends JFrame {
     private JPanel serverHomePanel;
-    private JButton updateButton;
     private JLabel portaField;
-    public JLabel users;
+    private JTable usersTable;
 
-    public Home(JFrame parent, int porta, List<String> usuarios) {
-        super(parent);
+    public Home() {
         setTitle("Server HomePage");
         setContentPane(serverHomePanel);
         setMinimumSize(new Dimension(300, 150));
-        setModal(true);
-        setLocationRelativeTo(parent);
-        portaField.setText(String.valueOf(porta));
-        update(usuarios);
+        setLocationRelativeTo(null);
+        createTable(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        updateButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
         setVisible(true);
     }
 
-    public void update(List<String> usuarios) {
-        StringBuilder result = new StringBuilder();
-        result.append("<html>");
-        for (String element : usuarios) {
-            result.append("IP: ").append(element).append("<br>");
+    public void setPortaField(Integer porta) {
+        portaField.setText(porta.toString());
+    }
+
+    private void createTable(String [][] data) {
+        usersTable.setModel(new DefaultTableModel(
+                data,
+                new String[] {"IP"}
+        ));
+    }
+
+    public void updateUserTable(List<String> usuarios) {
+        String [][] data = new String[usuarios.size()][1];
+        for(int i = 0; i < usuarios.size(); i++) {
+            data[i][0] = usuarios.get(i);
         }
-        result.append("</html>");
-        System.out.println(result);
-        users.setText(result.toString());
+        createTable(data);
     }
 }
