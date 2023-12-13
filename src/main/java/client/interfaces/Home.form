@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="client.interfaces.Home">
   <grid id="27dc6" binding="clientHomePanel" layout-manager="GridBagLayout">
     <constraints>
-      <xy x="48" y="42" width="550" height="660"/>
+      <xy x="48" y="42" width="551" height="767"/>
     </constraints>
     <properties>
       <preferredSize width="500" height="500"/>
@@ -333,6 +333,49 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
       </vspacer>
+      <component id="4a6ac" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="31" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="Operacão de Rota:"/>
+        </properties>
+      </component>
+      <component id="954f4" class="javax.swing.JButton" binding="BUSCAR_ROTAButton" default-binding="true">
+        <constraints>
+          <grid row="35" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="BUSCAR_ROTA"/>
+        </properties>
+      </component>
+      <vspacer id="342da">
+        <constraints>
+          <grid row="32" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+      </vspacer>
+      <vspacer id="25d6f">
+        <constraints>
+          <grid row="36" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+      </vspacer>
+      <vspacer id="c4aab">
+        <constraints>
+          <grid row="34" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+      </vspacer>
+      <component id="fa44e" class="javax.swing.JSeparator">
+        <constraints>
+          <grid row="33" column="1" row-span="1" col-span="3" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="1.0" weighty="0.0"/>
+        </constraints>
+        <properties/>
+      </component>
     </children>
   </grid>
 </form>

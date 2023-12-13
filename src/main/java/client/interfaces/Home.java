@@ -2,6 +2,7 @@ package client.interfaces;
 
 import lombok.Getter;
 
+import javax.crypto.spec.OAEPParameterSpec;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -27,6 +28,7 @@ public class Home extends JDialog{
     private JButton CADASTRAR_SEGMENTOButton;
     private JButton ATUALIZAR_SEGMENTOButton;
     private JButton DELETAR_SEGMENTOButton;
+    private JButton BUSCAR_ROTAButton;
 
     @Getter
     private String operation;
@@ -35,7 +37,7 @@ public class Home extends JDialog{
         super(parent);
         setTitle("Client HomePage");
         setContentPane(clientHomePanel);
-        setMinimumSize(new Dimension(500, 500));
+        setMinimumSize(new Dimension(500, 550));
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -162,6 +164,13 @@ public class Home extends JDialog{
             @Override
             public void actionPerformed(ActionEvent e) {
                 operation = "DELETAR_SEGMENTO";
+                dispose();
+            }
+        });
+        BUSCAR_ROTAButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                operation = "BUSCAR_ROTA";
                 dispose();
             }
         });
